@@ -1,0 +1,82 @@
+
+.nav {
+    margin-inline : auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.navMenu {
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    text-transform: None;
+    color: #333;
+    gap: 20px;
+    padding: 20px 50px;
+    margin: 10px 0px;
+    /* background-color: #f2f2f2; */
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+
+}
+
+
+
+.navLogo {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.navContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding-inline: 20px;
+    margin-inline: auto;
+}
+
+
+.navDashboard {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: 0 0px 20px #4CAF50;
+    transition: background-color 0.3s ease;
+}
+
+.navDashboard:hover {
+    background-color: #3e8e41;
+}
+
+.navDashboard:active {
+    background-color: #2e7031;
+}
+
+.navLogin {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    box-shadow: 0 0px 20px #008CBA;
+    transition: background-color 0.3s ease;
+}
+
+.navLogin:hover {
+    background-color: #007bb5;
+}
+
+.navLogin:active {
+    background-color: #005f7a;
+}
