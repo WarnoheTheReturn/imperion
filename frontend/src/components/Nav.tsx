@@ -27,7 +27,7 @@ function Nav({isLoggedIn} : {isLoggedIn: boolean})  {
                 />
 
                 <div className={styles.navMenu}>
-                    <a  href="#home">Home</a>
+                    <a href="/">Home</a>
                     <a href="#faq">FAQ</a>
                     <a href="#wiki">Wiki</a>
                     <a href="#forum">Forum</a>

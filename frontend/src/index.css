@@ -1,7 +1,11 @@
+a {
+    text-decoration: none;
+    color: white;
+}
+
 .App {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
-    text-align: center;
     min-height: 2000px;
     background-color: rgb(9, 14, 34);
 }

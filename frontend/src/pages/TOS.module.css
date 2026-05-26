@@ -1,0 +1,57 @@
+.tosContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-size : 18px;
+}
+
+.tosTopSection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+
+}
+
+.tosTopSection div{
+  background-color: rgb(9, 14, 34);
+  padding: 20px;
+  border-radius: 8px; 
+  border: 1px solid rgb(45, 72, 177);
+  box-shadow: 0px 2px 4px rgba(13, 20, 49);
+}
+
+.tosTopSection .tosDescription{
+    min-width: 200px;
+    max-width: 300px;
+
+}
+
+.tosTopSection .tosSummary{
+    min-width: 200px;
+    max-width: 300px;
+
+
+}
+
+.tosDot {
+    background-color: rgb(45, 72, 177);
+    box-shadow: 0px 0px 4px 5px rgb(26, 42, 105);
+    border: 1px solid rgb(45, 72, 177);
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
