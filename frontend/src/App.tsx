@@ -3,10 +3,11 @@ import Footer from './components/Footer'
 import Nav from './components/Nav'
 import { useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Callback from './pages/Callback';
 import Home from './pages/Home';
 import TOS from './pages/TOS';
 import PP from './pages/PP';
+import CallbackDiscord from './pages/CallbackDiscord';
+import CallbackRoblox from './pages/CallbackRoblox';
 
 
 function App() {
@@ -20,7 +21,8 @@ function App() {
       
     
         <Routes>
-          <Route path="/callback" element={<Callback />} />
+          <Route path="/callback/roblox" element={<CallbackRoblox />} />
+          <Route path="/callback/discord" element={<CallbackDiscord />} />
           <Route path="/tos" element={<TOS />} />
           <Route path="/pp" element={<PP />} />
           <Route path="/" element={<Home />} />

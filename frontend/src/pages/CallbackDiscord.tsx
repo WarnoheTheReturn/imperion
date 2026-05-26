@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-function Callback() {
+function CallbackDiscord() {
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code');
@@ -11,7 +11,7 @@ function Callback() {
         window.location.href = '/';
     }, []);
 
-    return <div>Callback</div>
+    return <div>Callback discord</div>
 }
 
-export default Callback
+export default CallbackDiscord
