@@ -3,11 +3,11 @@ import { BaseModel } from '../model';
 
 export interface LogsInfoRow extends RowDataPacket {
   id: number;
-  user_id: number;
-  moderator_id: number;
+  user_id: string;
+  moderator_id: string;
   date: Date;
   reason: string;
-  type_id: number;
+  type_id: string;
   is_removed: boolean;
 }
 

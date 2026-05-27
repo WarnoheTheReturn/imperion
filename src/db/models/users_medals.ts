@@ -2,8 +2,8 @@ import { RowDataPacket } from 'mysql2/promise';
 import { BaseModel } from '../model';
 
 export interface UsersMedalsRow extends RowDataPacket {
-  user_id: number;
-  medal_id : number;
+  user_id: string;
+  medal_id : string;
   level : number
 }
 

@@ -2,7 +2,7 @@ import { RowDataPacket } from 'mysql2/promise';
 import { BaseModel } from '../model';
 
 export interface MedalsRow extends RowDataPacket {
-  role_id: number;
+  role_id: string;
   name : string;
 }
 
