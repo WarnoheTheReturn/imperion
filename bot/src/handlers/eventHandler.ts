@@ -11,7 +11,7 @@ export async function loadEvents(client: Bot): Promise<void> {
     fs.mkdirSync(eventsPath);
   }
 
-  const files = fs.readdirSync(eventsPath).filter(f => f.endsWith(".ts") || f.endsWith(".js"));
+  const files = fs.readdirSync(eventsPath).filter(f => (f.endsWith(".ts") || f.endsWith(".js"))  && !f.endsWith('.d.ts'));
 
   if (files.length === 0) {
     console.log("⚠️ No events were found.");

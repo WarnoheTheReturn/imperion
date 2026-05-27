@@ -10,9 +10,16 @@ function getEnvVar(name: string, allowEmpty?: boolean): string {
   return value || "";
 }
 
+let token: string;
+if (process.env.NODE_ENV === "development") {
+  token = getEnvVar("DISCORD_TOKEN");
+} else {
+  token = getEnvVar("DISCORD_TOKEN_PROD");
+}
+
 export const config = {
   discord: {
-    token: getEnvVar("DISCORD_TOKEN"),
+    token: token,
     clientId: getEnvVar("DISCORD_CLIENT_ID"),
     guildId: getEnvVar("DISCORD_GUILD_ID"),
   },
@@ -24,6 +31,6 @@ export const config = {
     name: getEnvVar("DB_NAME"),
   },
   api: {
-    port: parseInt(getEnvVar("PORT"), 10) || 3000,
+    port: parseInt(getEnvVar("PORT"), 10),
   },
 };
