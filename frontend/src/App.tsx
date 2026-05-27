@@ -9,9 +9,16 @@ import PP from './pages/PP';
 import CallbackDiscord from './pages/CallbackDiscord';
 import CallbackRoblox from './pages/CallbackRoblox';
 
+export interface User {
+    id: string;
+    username: string;
+    avatar?: string;
+}
+
+
 
 function App() {
-  const [isLoggedIn, _setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
   const location = useLocation();
 
@@ -34,15 +41,31 @@ function App() {
       };
     
   }, [location.pathname]);
-  
-  return (
-  <>
 
-    <Nav isLoggedIn={isLoggedIn} />
+    useEffect(() => {
+      const fetchSession = async () => {
+        try {
+          const response = await fetch('/api/me');
+          const userData = await response.json();
+          if (userData.user) {
+            setUser(userData.user);
+          }
+        } catch (error) {
+          console.error('Error fetching session:', error);
+        }
+      };
+
+      fetchSession();
+    }, []);
+
+    return (
+    <>
+
+    <Nav user={user} />
 
     <Routes>
       <Route path="/callback/roblox" element={<CallbackRoblox />} />
-      <Route path="/callback/discord" element={<CallbackDiscord />} />
+      <Route path="/callback/discord" element={<CallbackDiscord setUser={setUser} />} />
       <Route path="/tos" element={<TOS />} />
       <Route path="/pp" element={<PP />} />
       <Route path="/" element={<Home />} />

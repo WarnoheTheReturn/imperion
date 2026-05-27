@@ -1,11 +1,12 @@
 import styles from './Nav.module.css';
 import { useEffect, useState } from 'react';
+import type { User } from '../App';
 
-function Nav({isLoggedIn} : {isLoggedIn: boolean})  {
+
+function Nav({user} : {user: User | null})  {
 
     const [isScrolled, setIsScrolled] = useState(false);
-    let loged = isLoggedIn ? "Dashboard" : "Login";
-    const logedClass = isLoggedIn ? styles.navDashboard : styles.navLogin;
+    const logedClass = user ? styles.navDashboard : styles.navLogin;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -17,14 +18,32 @@ function Nav({isLoggedIn} : {isLoggedIn: boolean})  {
         };
     }, []);
 
-    const handleClick = () => {
-        if (isLoggedIn) {
+    const handleClick = async () => {
+        if (user) {
             const dashboardLink = "http://localhost:5173/dashboard";
             window.location.href = dashboardLink;
             return;
         }
         else {
-            const discordLink = "https://discord.com/oauth2/authorize?client_id=1506356153536479282&response_type=code&redirect_uri=https%3A%2F%2Fimperion.onrender.com%2Fcallback%2Fdiscord&scope=guilds+openid+identify";
+
+            const getDiscordAuthorizeUrl = async () => {
+                try {
+                    const response = await fetch('/api/authorize/discord', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    const data = await response.json();
+                    return data.url;
+                } catch (error) {
+                    console.error('Error fetching Discord authorize URL:', error);
+                    return "/";
+                }
+            };
+
+            const discordLink = await getDiscordAuthorizeUrl();
+
             window.location.href = discordLink;
         }
     };
@@ -46,8 +65,7 @@ function Nav({isLoggedIn} : {isLoggedIn: boolean})  {
                     <a href="#forum">Forum</a>
                     <a href="#contact">Contact</a>
                 </div>
-
-                <button className={logedClass} onClick={handleClick}>{loged}</button>
+                <button className={logedClass} onClick={handleClick}>{user ? `Dashboard (${user.username})` : 'Login'}</button>
 
             </nav>
         

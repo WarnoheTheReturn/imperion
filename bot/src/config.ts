@@ -10,17 +10,30 @@ function getEnvVar(name: string, allowEmpty?: boolean): string {
   return value || "";
 }
 
+const dev = process.env.NODE_ENV === "dev";
 let token: string;
-if (process.env.NODE_ENV === "development") {
+let secretKey: string;
+let redirectUri: string;
+let authorizeUrl: string;
+
+
+if (dev) {
+  authorizeUrl = getEnvVar("AUTHORIZE_URL");
   token = getEnvVar("DISCORD_TOKEN");
+  secretKey = getEnvVar("DISCORD_SECRET_KEY");
+  redirectUri = getEnvVar("REDIRECT_URI");
 } else {
+  authorizeUrl = getEnvVar("AUTHORIZE_URL_PROD");
   token = getEnvVar("DISCORD_TOKEN_PROD");
+  secretKey = getEnvVar("DISCORD_SECRET_KEY_PROD");
+  redirectUri = getEnvVar("REDIRECT_URI_PROD");
 }
 
 export const config = {
   discord: {
     token: token,
     clientId: getEnvVar("DISCORD_CLIENT_ID"),
+    clientSecret: secretKey,
     guildId: getEnvVar("DISCORD_GUILD_ID"),
   },
   db: {
@@ -32,5 +45,7 @@ export const config = {
   },
   api: {
     port: parseInt(getEnvVar("PORT"), 10),
+    redirectUri: redirectUri,
+    authorizeUrl: authorizeUrl,
   },
 };
