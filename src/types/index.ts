@@ -1,5 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Client, Collection } from "discord.js";
 import {Database} from '../db/index';
+import { Logger } from "../logs/index";
+import { config } from "../config";
 
 export interface Command {
   data: SlashCommandBuilder;
@@ -15,4 +17,11 @@ export interface Event {
 export class Bot extends Client {
   public commands : Collection<string, Command> = new Collection();
   public db: Database = new Database();
+  public log : Logger = new Logger(this, this.db);
+  public config : typeof config = config;
+}
+
+export class LogChannelType {
+  static readonly GRADES = "grades";
+
 }
