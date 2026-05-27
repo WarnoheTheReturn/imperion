@@ -1,6 +1,22 @@
 import styles from './Nav.module.css';
+import { useEffect, useState } from 'react';
 
 function Nav({isLoggedIn} : {isLoggedIn: boolean})  {
+
+    const [isScrolled, setIsScrolled] = useState(false);
+    let loged = isLoggedIn ? "Dashboard" : "Login";
+    const logedClass = isLoggedIn ? styles.navDashboard : styles.navLogin;
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     const handleClick = () => {
         if (isLoggedIn) {
             const dashboardLink = "http://localhost:5173/dashboard";
@@ -13,15 +29,12 @@ function Nav({isLoggedIn} : {isLoggedIn: boolean})  {
         }
     };
 
-    let loged = isLoggedIn ? "Dashboard" : "Login";
-    const logedClass = isLoggedIn ? styles.navDashboard : styles.navLogin;
-
+    
     return (
         <>
-        <nav className={styles.navbar}>   
-            <div className={styles.navContainer}>
+            <nav className={`${isScrolled ? styles.navScrolled : ""} ${styles.navContainer}`}>
                 <img 
-                    src="../src/assets/bot_logo.png"
+                    src="./bot_logo.png"
                     alt="Bot Logo"
                     className={styles.navLogo}
                 />
@@ -36,8 +49,7 @@ function Nav({isLoggedIn} : {isLoggedIn: boolean})  {
 
                 <button className={logedClass} onClick={handleClick}>{loged}</button>
 
-            </div>
-        </nav>
+            </nav>
         
         </> 
     );
