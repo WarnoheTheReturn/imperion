@@ -23,4 +23,7 @@ export const config = {
     password: getEnvVar("DB_PASSWORD", true), 
     name: getEnvVar("DB_NAME"),
   },
+  api: {
+    port: parseInt(getEnvVar("PORT"), 10) || 3000,
+  },
 };
