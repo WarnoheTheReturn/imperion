@@ -19,6 +19,7 @@ export interface User {
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const location = useLocation();
 
@@ -53,6 +54,7 @@ function App() {
         } catch (error) {
           console.error('Error fetching session:', error);
         }
+        setLoading(false);
       };
 
       fetchSession();
@@ -61,7 +63,7 @@ function App() {
     return (
     <>
 
-    <Nav user={user} />
+    <Nav user={user} loading={loading} />
 
     <Routes>
       <Route path="/callback/roblox" element={<CallbackRoblox />} />

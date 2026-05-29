@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import type { User } from '../App';
 
 
-function Nav({user} : {user: User | null})  {
+function Nav({user, loading} : {user: User | null, loading: boolean})  {
 
     const [isScrolled, setIsScrolled] = useState(false);
     const logedClass = user ? styles.navDashboard : styles.navLogin;
@@ -43,7 +43,7 @@ function Nav({user} : {user: User | null})  {
             };
 
             const discordLink = await getDiscordAuthorizeUrl();
-
+            console.log('Redirecting to Discord authorize URL:', discordLink);
             window.location.href = discordLink;
         }
     };
@@ -65,7 +65,9 @@ function Nav({user} : {user: User | null})  {
                     <a href="#forum">Forum</a>
                     <a href="#contact">Contact</a>
                 </div>
-                <button className={logedClass} onClick={handleClick}>{user ? `Dashboard (${user.username})` : 'Login'}</button>
+                <button className={logedClass} onClick={handleClick}>
+                    {loading ? 'Loading...' : user ? `Dashboard (${user.username})` : 'Login'}
+                </button>
 
             </nav>
         
