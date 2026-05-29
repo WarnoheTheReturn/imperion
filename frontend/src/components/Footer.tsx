@@ -3,7 +3,6 @@ import styles from './Footer.module.css'
 function Footer() {
     return (
         <>
-        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
         <footer className={styles.footer}>
             <div className={styles.footerContainer}>
                 <div className={styles.footerHeader}>

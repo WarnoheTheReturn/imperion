@@ -11,11 +11,12 @@ function Home() {
   };
 
 
-    return (
+    return (<>
         <div className={styles.home} data-reveal>
             <Header />
             <Card title="In Build 🚧" description="lien vers le serveur Discord" children={<Button onClick={handleClick} name="discord"></Button>} />
         </div>
+        </>
     );
 }
 
