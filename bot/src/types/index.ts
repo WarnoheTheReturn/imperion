@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, Client, Collection } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, Client, Collection, AutocompleteInteraction } from "discord.js";
 import {Database} from '../db/index';
 import { Logger } from "../logs/index";
 import { config } from "../config";
@@ -6,6 +6,7 @@ import { config } from "../config";
 export interface Command {
   data: SlashCommandBuilder;
   execute: (interaction: ChatInputCommandInteraction, client: Bot) => Promise<void>;
+  autocomplete?: (interaction: AutocompleteInteraction, client: Bot) => Promise<void>;
 }
 
 export interface Event {
@@ -22,6 +23,7 @@ export class Bot extends Client {
 }
 
 export class LogChannelType {
-  static readonly GRADES = "grades";
+  static readonly GRADES = "grades"
+  static readonly ENLISTMENT = "enlistment";
 
 }

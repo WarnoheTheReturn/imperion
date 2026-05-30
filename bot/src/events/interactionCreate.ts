@@ -1,4 +1,4 @@
-import { Events, BaseInteraction, ChatInputCommandInteraction } from 'discord.js';
+import { Events, BaseInteraction, ChatInputCommandInteraction ,AutocompleteInteraction} from 'discord.js';
 import { Event, Command, Bot } from '../types';
 
 const event: Event = {
@@ -6,8 +6,7 @@ const event: Event = {
   once: false,
   
   async execute(interaction: BaseInteraction, client: Bot) {
-    
-    if (!interaction.isChatInputCommand()) return;
+
 
     const commandInteraction = interaction as ChatInputCommandInteraction;
 
@@ -16,20 +15,36 @@ const event: Event = {
     if (!command) {
       console.error(`⚠️ Command /${commandInteraction.commandName} was not found.`);
       return;
-    }
+    };
+    
+    if (command && interaction.isAutocomplete() && command.autocomplete ) {
+      const autocompleteInteraction = interaction as AutocompleteInteraction;
 
-    try {
-      await command.execute(commandInteraction, client);
-      console.log(`ℹ️ /${commandInteraction.commandName} executed by ${interaction.user.globalName}`)
-    } catch (error) {
-      console.error(`❌ Erreur with the execution of the command /${commandInteraction.commandName} :`, error);
-      
-      if (commandInteraction.replied || commandInteraction.deferred) {
-        await commandInteraction.followUp({ content: ' Erreur with the execution of the command  !', ephemeral: true });
-      } else {
-        await commandInteraction.reply({ content: ' Erreur with the execution of the command  !', ephemeral: true });
+      try {
+        await command.autocomplete(autocompleteInteraction, client);
+      } catch (error) {
+        console.error(`❌ Autocomplete error /${autocompleteInteraction.commandName} :`, error);
       }
+      
     }
+    
+    else if (interaction.isChatInputCommand()) {
+
+      try {
+        await command.execute(commandInteraction, client);
+        console.log(`ℹ️ /${commandInteraction.commandName} executed by ${interaction.user.globalName}`)
+      } catch (error) {
+        console.error(`❌ Erreur with the execution of the command /${commandInteraction.commandName} :`, error);
+        
+        if (commandInteraction.replied || commandInteraction.deferred) {
+          await commandInteraction.followUp({ content: ' Erreur with the execution of the command  !', ephemeral: true });
+        } else {
+          await commandInteraction.reply({ content: ' Erreur with the execution of the command  !', ephemeral: true });
+        }
+      }
+    };
+
+    
   },
 };
 
