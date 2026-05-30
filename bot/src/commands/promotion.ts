@@ -33,21 +33,27 @@ const command: Command = {
     const member = interaction.guild?.members.cache.get(user.id) as GuildMember;
     const gradeData = await bot.db.tables.grades.getById(userData.data.current_grade);
 
+
+    let nextGrade;
     if (!gradeData) {
-      await interaction.editReply({ content : `❌ Grade not found !` });
-      return;
+      nextGrade = await bot.db.tables.grades.nextGrade(-1);
     }
-    const nextGrade = await bot.db.tables.grades.nextGrade(gradeData.data.level);
+    else {
+      nextGrade = await bot.db.tables.grades.nextGrade(gradeData.data.level);
+    }
+    
 
     if (!nextGrade) {
-      await interaction.editReply({ content : `❌ ${user.globalName} is already at the maximum grade !` });
+      await interaction.editReply({ content : `❌ ${user.globalName} is already at the maximum grade or member doesn't have a grade and no grade is set with level 0 !` });
       return;
     }
 
     if (userData.data.xp >= nextGrade.xp_requirements){
-
-        const role = interaction.guild?.roles.cache.get(userData.data.current_grade) as Role;
-        await member.roles.remove(role);
+        if (gradeData) {
+          const role = interaction.guild?.roles.cache.get(userData.data.current_grade) as Role;
+          await member.roles.remove(role);
+        }
+        
         const newRole = interaction.guild?.roles.cache.get(nextGrade.role_id) as Role;
         await member.roles.add(newRole);
 
