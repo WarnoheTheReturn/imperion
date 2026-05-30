@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, TextChannel } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, TextChannel , PermissionFlagsBits } from "discord.js";
 import { Command, LogChannelType } from "../types";
 import { Bot } from "../types";
 import { LogsLogChannelRow } from "../db/models/logs_log_channel";
@@ -7,6 +7,7 @@ const command: Command = {
   data: new SlashCommandBuilder()
     .setName("log_channel")
     .setDescription("add a log channel to the database")
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption((option) => option
         .setName("type")
         .setDescription("The type of log")

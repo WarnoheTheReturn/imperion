@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction,User,GuildMember,Role, EmbedBuilder, MessageFlags } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction,User,GuildMember,Role, EmbedBuilder, MessageFlags, PermissionFlagsBits } from "discord.js";
 import { Command } from "../types";
 import { Bot } from "../types";
 
@@ -7,6 +7,7 @@ const command: Command = {
   data: new SlashCommandBuilder()
     .setName("demotion")
     .setDescription("demote a member")
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addUserOption((option) => option
         .setName("user")
         .setDescription("The username of the user you want to demote")

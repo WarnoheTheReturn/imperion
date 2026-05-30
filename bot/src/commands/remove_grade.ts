@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, User, Role , AutocompleteInteraction, Guild, GuildMember} from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, User, Role , AutocompleteInteraction, Guild, GuildMember , PermissionFlagsBits} from "discord.js";
 import { Command } from "../types";
 import { Bot } from "../types";
 import { GradesModel } from "../db/models/grades";
@@ -7,6 +7,7 @@ const command: Command = {
   data: new SlashCommandBuilder()
     .setName("remove_grade")
     .setDescription("remove a grade to the database")
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption((option) => option
         .setName("grade")
         .setDescription("The grade to remove")
@@ -85,7 +86,7 @@ const command: Command = {
           return `<@${member.user.data.id}> to no grade`;
         }
       }).join("\n");
-      
+
     const embed = new EmbedBuilder()
       .setTitle("Grade removed")
       .setColor("#1840da")

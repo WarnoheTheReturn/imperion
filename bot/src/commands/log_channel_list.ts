@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, TextChannel,EmbedBuilder } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, TextChannel,EmbedBuilder , PermissionFlagsBits } from "discord.js";
 import { Command, LogChannelType } from "../types";
 import { Bot } from "../types";
 import { LogsLogChannelRow } from "../db/models/logs_log_channel";
@@ -6,7 +6,8 @@ import { LogsLogChannelRow } from "../db/models/logs_log_channel";
 const command: Command = {
   data: new SlashCommandBuilder()
     .setName("log_channel_list")
-    .setDescription("list all log channels") as SlashCommandBuilder,
+    .setDescription("list all log channels")
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator) as SlashCommandBuilder,
 
   execute: async (interaction: ChatInputCommandInteraction, bot: Bot) => {
     const sent = await interaction.deferReply();
