@@ -5,9 +5,29 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-const token = process.env.DISCORD_TOKEN;
-const clientId = process.env.DISCORD_CLIENT_ID;
-const guildId = process.env.DISCORD_GUILD_ID;
+function getEnvVar(name: string, allowEmpty?: boolean): string {
+  const value = process.env[name];
+  if (!value && !allowEmpty) {
+    throw new Error(`❌ ERREUR: environment varible ${name} is missing in the file .env`);
+  }
+  return value || "";
+}
+
+const dev = process.env.NODE_ENV === "dev";
+let token: string;
+let guildId: string;
+let clientId: string;
+if (dev) {
+  token = getEnvVar("DISCORD_TOKEN");
+  clientId = getEnvVar("DISCORD_CLIENT_ID");
+  guildId =   getEnvVar("DISCORD_GUILD_ID");
+} else {
+  token = getEnvVar("DISCORD_TOKEN_PROD");
+  guildId = getEnvVar("DISCORD_GUILD_ID_PROD");
+  clientId =  getEnvVar("DISCORD_CLIENT_ID_PROD");
+}
+
+
 
 
 if (!token || !guildId || !clientId) {
