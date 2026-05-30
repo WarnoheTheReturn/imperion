@@ -37,11 +37,12 @@ const command: Command = {
     const recruiter = interaction.options.getUser("recruiter");
 
     const grades = await bot.db.tables.grades.getAll(); // switch with SELECT * FROM grades LIMIT 1 ORDER BY level ASC; for testing
+    const gradeSorted = grades.sort((a, b) => a.data.level - b.data.level);
     if (grades.length === 0) {
       await interaction.editReply({ content : `❌ No grade found !` });
       return;
     };
-    const lowerestGrade = grades[grades.length - 1] as GradesModel;
+    const lowerestGrade = gradeSorted[0] as GradesModel;
 
 
 
@@ -88,7 +89,7 @@ const command: Command = {
       };
       await bot.db.tables.users.create(memberData);
     }
-
+    await bot.log.logEnlistment(user.id, roblox_id, recruiter ? recruiter.globalName : null);
     await interaction.editReply({ content : `✅ ${user.globalName} enlisted !` });
 
   },
