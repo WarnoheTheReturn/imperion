@@ -31,10 +31,6 @@ const command: Command = {
     const level = interaction.options.getNumber("level") as number;
 
     const gradesDatas = await bot.db.tables.grades.getAll(); // switch en SELECT * FROM grades WHERE level = {level}
-    if (gradesDatas.length === 0) {
-      await interaction.editReply({ content : `❌ No grade found !` });
-      return;
-    };
     let currentGradeData 
 
     for (let i = 0; i < gradesDatas.length; i++) {
