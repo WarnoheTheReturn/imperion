@@ -10,9 +10,12 @@ export async function loadCommands(client: Bot): Promise<void> {
   if (!fs.existsSync(commandsPath)) {
     console.log("⚠️ Command folder does not exist");
     fs.mkdirSync(commandsPath);
+    return;
   }
 
-  const files = fs.readdirSync(commandsPath).filter(f => (f.endsWith(".ts") || f.endsWith(".js"))  && !f.endsWith('.d.ts'));
+  const files = fs
+    .readdirSync(commandsPath)
+    .filter(f => (f.endsWith(".ts") || f.endsWith(".js"))  && !f.endsWith('.d.ts'));
 
   if (files.length === 0) {
     console.log("⚠️ No commands were found");
