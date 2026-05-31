@@ -1,8 +1,22 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, User } from "discord.js";
+import { SlashCommandBuilder, 
+  ChatInputCommandInteraction, 
+  EmbedBuilder, 
+  MessageFlags, 
+  User , 
+  ContainerBuilder,
+  SectionBuilder,
+  TextDisplayBuilder,
+  ThumbnailBuilder,
+  SeparatorBuilder,
+} from "discord.js";
+
+
+
 import { Command } from "../types";
 import { Bot } from "../types";
 import { UsersModel } from "../db/models/users"
 import { GradesModel } from "../db/models/grades"
+import {robloxProfilPictureURL} from "../utils/roblox";
 
 const command: Command = {
   data: new SlashCommandBuilder()
@@ -24,7 +38,6 @@ const command: Command = {
       return;
     }
 
-    
     let xp_requirements = "?";
     let next_grade_id = "?";
     const gradeData : GradesModel | null = await bot.db.tables.grades.getById(userData.data.current_grade);
@@ -34,33 +47,59 @@ const command: Command = {
         next_grade_id = nextGrade?.role_id || "?";
     }
 
-    let description = `Grade : <@&${userData.data.current_grade}>
-    XP : ${userData.data.xp}/${xp_requirements} (Next grade : <@&${next_grade_id}>)
-    Roblox Profil : https://www.roblox.com/users/${userData.data.roblox_id}/profile
-    Enlistment date : ${userData.data.enlistment_date.getDate()}/${userData.data.enlistment_date.getMonth() + 1}/${userData.data.enlistment_date.getFullYear()}`;
-    
-    if (userData.data.is_inactivity) {
-        description += `\n\nInactivity : Until ${userData.data.inactivity_duration}`;
-    }
-    if (userData.data.rank_lock_grade_id !== null) {
-        description += `Rank lock : Until <@&${userData.data.rank_lock_grade_id}>`;
-    }
+    const robloxProfilPicture = await robloxProfilPictureURL(userData.data.roblox_id);
 
-    const embed = new EmbedBuilder()
-      .setTitle(`${user.globalName}'s profile`)
-      .setThumbnail(user.displayAvatarURL({ size: 1024, extension: 'png' }))
-      .setDescription(description)
-      .setColor('#00aeff');
+    const color = userData.data.black_listed ? 0xFF0000 : userData.data.in_faction ? 0x00aeff : 0x252525;
 
-    if (userData.data.black_listed) {
-        embed.setColor('#FF0000')
-        .setTitle(`${user.globalName}'s profile (blacklisted)`);
-    }
-    if (!userData.data.in_faction) {
-        embed.setColor('#252525')
-        .setTitle(`${user.globalName}'s profile (not in the faction)`);
-    }
-    await interaction.editReply({ embeds: [embed] });
+    const statusBadge = 
+      userData.data.black_listed ? "🚫 **Blacklisted** " : 
+      userData.data.is_inactivity ? "🟡 **On inactivity**" : 
+      userData.data.in_faction ? "🟢 **Active**" : 
+      "⚫ **Not in faction**";
+
+    const enlistDate = `${userData.data.enlistment_date.getDate()}/${
+      userData.data.enlistment_date.getMonth() + 1}/${
+      userData.data.enlistment_date.getFullYear()}`;
+
+    let extraLines = "";
+    if (userData.data.is_inactivity)
+      extraLines += `\n> 🕐 **Inactivity until** : ${userData.data.inactivity_duration}`;
+    if (userData.data.rank_lock_grade_id !== null)
+      extraLines += `\n> 🔒 **Rank lock until** : <@&${userData.data.rank_lock_grade_id}>`;
+
+    const container = new ContainerBuilder()
+      .setAccentColor(color)
+      .addSectionComponents(
+        new SectionBuilder()
+          .addTextDisplayComponents(
+            new TextDisplayBuilder().setContent(
+              `## ${user.globalName}'s Profile\n${statusBadge}`
+            )
+          )
+          .setThumbnailAccessory(
+            new ThumbnailBuilder()
+            .setURL(robloxProfilPicture ?? user.displayAvatarURL())
+            .setDescription("Roblox Profil Picture")
+          )
+      )
+      .addSeparatorComponents(new SeparatorBuilder().setSpacing(1))
+      .addTextDisplayComponents(
+        new TextDisplayBuilder().setContent(
+          [
+            `> 🎖️ **Grade** : <@&${userData.data.current_grade}>`,
+            `> ⭐ **XP** : \`${userData.data.xp}/${xp_requirements}\` — Next: <@&${next_grade_id}>`,
+            `> 🎮 **Roblox** : [View profile](https://www.roblox.com/users/${userData.data.roblox_id}/profile)`,
+            `> 📅 **Enlisted** : ${enlistDate}`,
+            extraLines,
+          ].join("\n")
+        )
+          
+      );
+
+    await interaction.editReply({
+      components: [container],
+      flags: MessageFlags.IsComponentsV2,
+    });
   },
 };
 
