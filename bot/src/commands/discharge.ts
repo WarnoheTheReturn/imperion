@@ -39,8 +39,11 @@ const command: Command = {
     await userData.save();
 
     const member = interaction.guild?.members.cache.get(user.id) as GuildMember;
-    const role = interaction.guild?.roles.cache.get(userData.data.current_grade) as Role;
-    await member.roles.remove(role);
+    if (userData.data.current_grade) {
+      const role = interaction.guild?.roles.cache.get(userData.data.current_grade) as Role;
+      await member.roles.remove(role);
+    }
+    
 
     await interaction.editReply({ content : `✅ ${user.globalName} discharged !` });
 
