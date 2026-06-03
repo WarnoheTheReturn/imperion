@@ -43,6 +43,8 @@ const command: Command = {
       const role = interaction.guild?.roles.cache.get(userData.data.current_grade) as Role;
       await member.roles.remove(role);
     }
+
+    await bot.log.logDischarge(user.id, userData.data.roblox_id);
     
 
     await interaction.editReply({ content : `✅ ${user.globalName} discharged !` });

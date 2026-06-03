@@ -74,16 +74,27 @@ export class Logger {
     this.info(`Logged demotion for user ${userId} in channel ${logChannel.id}`);
   }
 
-  public async logEnlistment(userId: string, robloxId: number, recruiterName: string | null): Promise<void> {
+  public async logEnlistment(userId: string, robloxId: number, recruiterName: string | null, timezone: string, howFound: string): Promise<void> {
     const logChannel = await this.getLogChannel(LogChannelType.ENLISTMENT);
     if (!logChannel) return;
     const embed = new EmbedBuilder()
         .setTitle("Enlistment Logged")
         .setDescription(`📈 User <@${userId}> was enlisted.\nRoblox ID :  \`${robloxId}\`\n[Link](https://www.roblox.com/users/${robloxId}/profile) \
-        \nRecruiter : ${recruiterName}`)
+        \nRecruiter : ${recruiterName}\nTimezone : ${timezone}\nHow found : ${howFound} `)
         .setColor("#1840da");
     await logChannel.send({ embeds: [embed] });
     this.info(`Logged enlistment for user ${userId} in channel ${logChannel.id}`);
+  }
+
+  public async logDischarge(userId: string, robloxId: number): Promise<void> {
+    const logChannel = await this.getLogChannel(LogChannelType.ENLISTMENT);
+    if (!logChannel) return;
+    const embed = new EmbedBuilder()
+        .setTitle("Discharge Logged")
+        .setDescription(`📉 User <@${userId}> was discharged.\nRoblox ID :  \`${robloxId}\`\n[Link](https://www.roblox.com/users/${robloxId}/profile) `)
+        .setColor("#da1818");
+    await logChannel.send({ embeds: [embed] });
+    this.info(`Logged discharge for user ${userId} in channel ${logChannel.id}`);
   }
 
   
