@@ -27,6 +27,12 @@ const command: Command = {
     const channel_type = interaction.options.getString("type") as string;
     const channel = interaction.options.getChannel("channel") as TextChannel;
 
+    const existingLogChannel = await bot.db.tables.logs_log_channel.getById(channel_type);
+    if (existingLogChannel) {
+      await interaction.editReply({ content : `❌ Log channel already exists !` });
+      return;
+    }
+
     const logChannelData : LogsLogChannelRow = {
       type: channel_type,
       channel_id: channel.id.toString(),
