@@ -3,5 +3,4 @@ build/
 shema/
 
 node_modules/
-
 .env
