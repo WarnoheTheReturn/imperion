@@ -13,7 +13,8 @@ import { SlashCommandBuilder,
     ContainerBuilder, 
     SeparatorBuilder,
     GuildMember,
-    Role 
+    Role ,
+    Guild,
 
 } from "discord.js";
 import { Command } from "../types";
@@ -21,6 +22,7 @@ import { Bot } from "../types";
 import { verifySessions , waitForVerify} from "../store/verifySession";
 import { UsersModel, UserData } from "../db/models/users";
 import { GradesModel } from "../db/models/grades";
+import {fetchMember} from "../utils/fetchMember";
 
 
 
@@ -45,6 +47,13 @@ const command: Command = {
     const lowerestGrade = gradeSorted[0] as GradesModel;
     const verifiedGrade = gradeSorted[1] as GradesModel;
 
+    const member = await fetchMember(interaction.guild as Guild, interaction.user.id);
+    const lowerestGradeRole = interaction.guild?.roles.cache.get(lowerestGrade.data.role_id) as Role;
+    if (!member.roles.cache.has(lowerestGradeRole.id)) {
+      await interaction.editReply({ content : `❌ ${interaction.user.globalName} as not the lowest rank !` });
+      return;
+    }
+
     const userData : UsersModel | null = await bot.db.tables.users.getById(interaction.user.id);
     if (userData && userData.data.in_faction) {
       await interaction.editReply({ content : `❌ ${interaction.user.globalName} is already verified !` });
@@ -54,6 +63,7 @@ const command: Command = {
       await interaction.editReply({ content : `❌ ${interaction.user.globalName} is blacklisted !` });
       return;
     }
+    
     
 
     const container = new ContainerBuilder()
@@ -136,9 +146,7 @@ const command: Command = {
     };
 
 
-    const lowerestGradeRole = interaction.guild?.roles.cache.get(lowerestGrade.data.role_id) as Role;
     const verifiedGradeRole = interaction.guild?.roles.cache.get(verifiedGrade.data.role_id) as Role;
-    const member = interaction.guild?.members.cache.get(interaction.user.id) as GuildMember;
     await member.roles.add(verifiedGradeRole);
     await member.roles.remove(lowerestGradeRole);
 
@@ -147,7 +155,8 @@ const command: Command = {
       userData.data.current_grade = verifiedGrade.data.role_id;
       userData.data.enlistment_date = new Date();
       userData.data.roblox_id = session.robloxId!;
-      userData.data.ticket_link = "";
+      userData.data.timezone = session.timezone!;
+      userData.data.how_found = session.howFound!;
       userData.data.recruiter_id = session.recruitedBy ?? null;
       
       await userData.save();
@@ -164,14 +173,15 @@ const command: Command = {
         is_inactivity: false,
         inactivity_duration: null,
           
-        roblox_id: -1,
-        ticket_link: "",
-        recruiter_id: null,
+        roblox_id: session.robloxId!,
+        timezone : session.timezone!,
+        how_found : session.howFound!,
+        recruiter_id: session.recruitedBy ?? null,
         enlistment_date: new Date()
       };
       await bot.db.tables.users.create(memberData);
     }
-    await bot.log.logEnlistment(interaction.user.id, -1, null);
+    await bot.log.logEnlistment(interaction.user.id, session.robloxId!, session.recruitedBy ?? null, session.timezone!, session.howFound!);
     await interaction.editReply({
         components: [
             new ContainerBuilder()

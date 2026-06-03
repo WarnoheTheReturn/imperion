@@ -12,9 +12,10 @@ export interface UserData {
   rank_lock_grade_id : number | null;
   is_inactivity : boolean;
   inactivity_duration : Date | null;
-  ticket_link : string;
   recruiter_id : string | null;
   enlistment_date : Date;
+  timezone : string | null;
+  how_found : string | null;
 }
 
 export class UsersModel extends BaseModel<UserData> {
