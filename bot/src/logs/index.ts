@@ -74,5 +74,17 @@ export class Logger {
     this.info(`Logged demotion for user ${userId} in channel ${logChannel.id}`);
   }
 
+  public async logEnlistment(userId: string, robloxId: number, recruiterName: string | null): Promise<void> {
+    const logChannel = await this.getLogChannel(LogChannelType.ENLISTMENT);
+    if (!logChannel) return;
+    const embed = new EmbedBuilder()
+        .setTitle("Enlistment Logged")
+        .setDescription(`📈 User <@${userId}> was enlisted.\nRoblox ID :  \`${robloxId}\`\n[Link](https://www.roblox.com/users/${robloxId}/profile) \
+        \nRecruiter : ${recruiterName}`)
+        .setColor("#1840da");
+    await logChannel.send({ embeds: [embed] });
+    this.info(`Logged enlistment for user ${userId} in channel ${logChannel.id}`);
+  }
+
   
 }
