@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { User } from '../App';
 
@@ -11,8 +11,12 @@ function CallbackDiscord({ setUser }: CallbackDiscordProps) {
 
     const navigate = useNavigate();
     const [status, setStatus] = useState("Connexion Discord en cours, veuillez patienter...");
+    const called = useRef(false);
 
     useEffect(() => {
+        if (called.current) return;
+        called.current = true;
+        
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code');
 
