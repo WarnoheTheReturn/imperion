@@ -3,7 +3,7 @@ import { BaseModel } from '../model';
 
 export interface LogsMedalRow extends RowDataPacket {
   id: number;
-  medal_id : number;
+  medal_id : string;
   level : number;
   is_awarded : boolean;
 }

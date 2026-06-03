@@ -3,7 +3,7 @@ import { BaseModel } from '../model';
 
 export interface LogsRankLockRow extends RowDataPacket {
   id: number;
-  grade_id : number;
+  grade_id : string;
   is_locked : boolean;
   duration : Date
 }

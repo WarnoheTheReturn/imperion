@@ -3,8 +3,8 @@ import { BaseModel } from '../model';
 
 export interface LogsPromotionRow extends RowDataPacket {
   id: number;
-  previous_grade_id : number;
-  updated_grade_id : number;
+  previous_grade_id : string;
+  updated_grade_id : string;
 }
 
 export class LogsPromotionModel extends BaseModel<LogsPromotionRow> {

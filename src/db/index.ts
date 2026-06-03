@@ -11,11 +11,13 @@
   import { MedalsModel } from './models/medals';
   import { UsersMedalsModel } from './models/users_medals';
   import { UsersModel } from './models/users';
+import { LogsLogChannelModel } from './models/logs_log_channel';
 
   export class Database {
     public pool: mysql.Pool;
     public tables: {
       grades: GradesModel;
+      logs_log_channel: LogsLogChannelModel;
       logs_inactivity: LogsInactivityModel;
       logs_info: LogsInfoModel;
       logs_medal: LogsMedalModel;
@@ -28,8 +30,9 @@
       users: UsersModel;
     };
 
+
     constructor() {
-      this.pool = mysql.createPool({
+      this.pool =  mysql.createPool({
         host: config.db.host,
         port: config.db.port,
         user: config.db.user,
@@ -39,8 +42,24 @@
         connectionLimit: 10,
       });
 
+    const originalQuery = this.pool.query.bind(this.pool);
+    const originalExecute = this.pool.execute.bind(this.pool);
+
+    this.pool.query = async (...args: any[]) => {
+      console.log('📝 [SQL QUERY] :', args[0], args[1] ? args[1] : '');
+      return originalQuery.apply(this.pool, args as any);
+    };
+
+    this.pool.execute = async (...args: any[]) => {
+      console.log('📝 [SQL EXECUTE] :', args[0], args[1] ? args[1] : '');
+      return originalExecute.apply(this.pool, args as any);
+    };
+      
+
+
       this.tables = {
         grades : new GradesModel(this.pool),
+        logs_log_channel : new LogsLogChannelModel(this.pool),
         logs_inactivity : new LogsInactivityModel(this.pool),
         logs_info : new LogsInfoModel(this.pool),
         logs_medal : new LogsMedalModel(this.pool),
@@ -51,7 +70,10 @@
         medals : new MedalsModel(this.pool),
         users_medals : new UsersMedalsModel(this.pool),
         users : new UsersModel(this.pool)
+
       };
+
+      
       
     }
 
