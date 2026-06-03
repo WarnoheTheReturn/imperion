@@ -12,6 +12,10 @@
   import { UsersMedalsModel } from './models/users_medals';
   import { UsersModel } from './models/users';
 import { LogsLogChannelModel } from './models/logs_log_channel';
+import { EventChannelsModel } from './models/events_channel';
+import { LogsEventModel } from './models/logs_event';
+import { LogsEventParticipantsModel } from './models/logs_event_participants';
+import { EventTypeModel } from './models/event_type';
 
   export class Database {
     public pool: mysql.Pool;
@@ -28,6 +32,10 @@ import { LogsLogChannelModel } from './models/logs_log_channel';
       medals: MedalsModel;
       users_medals: UsersMedalsModel;
       users: UsersModel;
+      event_channels: EventChannelsModel;
+      logs_event: LogsEventModel;
+      logs_event_participants: LogsEventParticipantsModel;
+      event_type: EventTypeModel
     };
 
 
@@ -69,7 +77,11 @@ import { LogsLogChannelModel } from './models/logs_log_channel';
         logs_xp : new LogsXpModel(this.pool),
         medals : new MedalsModel(this.pool),
         users_medals : new UsersMedalsModel(this.pool),
-        users : new UsersModel(this.pool)
+        users : new UsersModel(this.pool),
+        event_channels : new EventChannelsModel(this.pool),
+        logs_event : new LogsEventModel(this.pool),
+        logs_event_participants : new LogsEventParticipantsModel(this.pool),
+        event_type : new EventTypeModel(this.pool)
 
       };
 

@@ -38,6 +38,12 @@ export class LogChannelType {
 
 }
 
+export class EventState {
+  static readonly CREATED = "created";
+  static readonly STARTED = "started";
+  static readonly ENDED = "ended";
+}
+
 interface BaseComponent<TBuilder, TInteraction> {
   customId: string;
   component: TBuilder;
