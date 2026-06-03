@@ -18,7 +18,6 @@ a {
 .App {
     font-family: 'Satoshi', 'Inter', sans-serif;
     color: white;
-    min-height: 2000px;
     background-color: rgb(9, 14, 34);
 
     margin: 0;
