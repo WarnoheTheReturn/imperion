@@ -12,7 +12,7 @@ export async function loadCommands(client: Bot): Promise<void> {
     fs.mkdirSync(commandsPath);
   }
 
-  const files = fs.readdirSync(commandsPath).filter(f => f.endsWith(".ts") || f.endsWith(".js"));
+  const files = fs.readdirSync(commandsPath).filter(f => (f.endsWith(".ts") || f.endsWith(".js"))  && !f.endsWith('.d.ts'));
 
   if (files.length === 0) {
     console.log("⚠️ No commands were found");

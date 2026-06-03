@@ -1,21 +1,23 @@
 import express from 'express';
-import cors from 'cors';
+import path from 'path';
 import {Bot} from '../types';
 
 export const createServer = (client : Bot) => {
     const app = express();
-
-    app.use(cors());
     app.use(express.json());
-
-    app.get('/', (_, res) => {
-        res.send(`L'API fonctionne. `);
-    });
-
     app.post('callback/discord', (req, res) => {
         const { code, state } = req.body;
         res.json({ success: true, message: "Code reçu" });
     });
+
+    const frontendPath = path.join(__dirname, '../../../frontend/dist');
+
+    app.use(express.static(frontendPath));
+
+    app.get('/*splat', (req, res) => {
+        res.sendFile(path.join(frontendPath, 'index.html'));
+    });
+        
 
     return app;
 };

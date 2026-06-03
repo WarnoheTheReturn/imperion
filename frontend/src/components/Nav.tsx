@@ -34,7 +34,7 @@ function Nav({isLoggedIn} : {isLoggedIn: boolean})  {
         <>
             <nav className={`${isScrolled ? styles.navScrolled : ""} ${styles.navContainer}`}>
                 <img 
-                    src="./bot_logo.png"
+                    src="/bot_logo.png"
                     alt="Bot Logo"
                     className={styles.navLogo}
                 />
