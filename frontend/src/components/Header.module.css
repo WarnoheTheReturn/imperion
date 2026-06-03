@@ -1,0 +1,19 @@
+.header {
+    background-color: rgb(9, 14, 34);
+    color: white;
+    text-align: center;
+    padding: 20px;
+    
+    
+}
+
+.header h1 {
+    font-family: 'Cabinet Grotesk', 'Helvetica Neue', sans-serif;
+    font-size: 8em;
+    margin: 0;
+    letter-spacing: -5px;
+    background : linear-gradient(100deg, rgb(26, 42, 105) 35%, rgb(255, 255, 255) 50%, rgb(138, 10, 1) 65%);
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+}
