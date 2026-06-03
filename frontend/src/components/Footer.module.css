@@ -1,5 +1,52 @@
-a {
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
+.footer{
+    background-color: linear-gradient(180deg, #000000, #000000);
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid rgba(26, 42, 105);
+}
+
+.footerContainer{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: stretch;
+}
+
+.footerHeader{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.footerLinks{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.footerLinks a{
+    color: #ffffff7a;
+}
+
+.footer p{
+    color: #ffffff;
+}
+
+.footerButtom{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(26, 42, 105);
+    padding-top: 20px;
+    margin-top: 50px;
+}
+
+.footerButtom p{
+    color: #ffffff3b;
+    font-size: 12px;
+    margin: 0;
 }
