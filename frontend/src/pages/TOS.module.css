@@ -1,15 +1,30 @@
 .tosContainer {
-  max-width: 800px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 20px;
   font-size : 18px;
 }
 
 .tosTopSection {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 2rem;
+  align-items: stretch;
 
+}
+
+@media (max-width: 768px) {
+  .tosTopSection {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tosButSection{
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
 }
 
 .tosTopSection div{
@@ -17,18 +32,18 @@
   padding: 20px;
   border-radius: 8px; 
   border: 1px solid rgb(45, 72, 177);
-  box-shadow: 0px 2px 4px rgba(13, 20, 49);
+  box-shadow: 0px 2px 20px rgb(27, 42, 100);
 }
 
 .tosTopSection .tosDescription{
     min-width: 200px;
-    max-width: 300px;
+    /* max-width: 300px; */
 
 }
 
 .tosTopSection .tosSummary{
     min-width: 200px;
-    max-width: 300px;
+    /* max-width: 300px; */
 
 
 }
@@ -55,3 +70,200 @@ li {
     gap: 15px;
 }
 
+
+
+.tosContent{
+  background-color: rgb(9, 14, 34);
+  padding: 20px;
+  border-radius: 8px; 
+  border: 1px solid rgb(45, 72, 177);
+  box-shadow: 0px 2px 20px rgb(27, 42, 100);
+}
+
+
+
+.tosSection{
+  border-bottom: 1px solid rgb(45, 72, 177);
+  margin : 10px;
+}
+.tosSummaryMenu{
+  position:sticky;
+  top: 100px;
+  background-color: rgb(9, 14, 34);
+  padding: 20px;
+  border-radius: 8px; 
+  border: 1px solid rgb(45, 72, 177);
+  box-shadow: 0px 2px 20px rgb(27, 42, 100);
+  max-width: 200px;
+
+}
+
+.tosSummaryMenuList{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.tosSummaryMenu h3{
+  margin : 0px;
+  margin-bottom: 10px;
+}
+
+.tosSummaryMenu a  {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  font-size: 16px;
+  
+}
+
+
+.tosSummaryMenu li  {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  font-size: 14px;
+  padding : 5px;
+  margin : 0px;
+}
+
+.tosSummaryMenu li:hover  {
+  background-color: rgba(59, 59, 59, 0.295);
+  border-radius: 5px;
+  transition: background-color 0.2s ease-in-out;
+  
+}
+
+.tosSectionNumber{
+  font-size : 18px;
+  color: rgb(115, 143, 255);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.tosSection h3{
+  font-size : 28px;
+  color: rgb(255, 255, 255);
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.tosSectionDescription{
+  color: #ffffffa2;
+  font-size: 19px;
+}
+
+.tosBullet{
+  /* align-items: center; */
+
+}
+
+.tosSectionInformation{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5px;
+  align-items: stretch;
+  margin-top: 20px;
+}
+
+.tosSectionInformation h4{
+  font-size : 20px;
+  color: rgb(255, 255, 255);
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  padding-left: 10px;
+}
+
+.tosSectionInformationGrid h4{
+  font-size : 20px;
+  color: rgb(255, 255, 255);
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  padding-left: 10px;
+}
+
+.tosSectionInformation p{
+  color: #ffffffa2;
+  font-size: 17px;
+  padding : 5px;
+  padding-left: 10px;
+}
+
+.tosSectionInformationGrid p{
+  color: #ffffffa2;
+  font-size: 17px;
+  padding : 5px;
+  padding-left: 10px;
+}
+
+
+.tosSectionInformationGray{
+  gap: 2rem;
+  align-items: stretch;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border : 1px solid rgba(107, 107, 107, 0.568);
+  padding : 10px;
+  border-radius: 10px;
+}
+
+.tosSectionInformationRed{
+  gap: 2rem;
+  align-items: stretch;
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+
+  border-left : 4px solid rgb(255, 0, 0);
+  background-color: #cf00003a;
+  padding : 10px;
+  border-radius: 10px;
+}
+
+.tosSectionInformationBlue{
+  gap: 2rem;
+  align-items: stretch;
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+
+  border-left : 4px solid rgb(0, 0, 255);
+  background-color: #0000ff3a;
+  padding : 10px;
+  border-radius: 10px;
+}
+
+.tosSectionInformationGreen{
+  gap: 2rem;
+  align-items: stretch;
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+
+  border-left : 4px solid rgb(0, 255, 0);
+  background-color: #00ff001e;
+  padding : 10px;
+  border-radius: 10px;
+
+}
+
+.tosSectionInformationGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  align-items: stretch;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+
+
+
+
+
+
+.tosFooter{
+  color: #ffffff3b;
+  font-size: 12px;
+}
