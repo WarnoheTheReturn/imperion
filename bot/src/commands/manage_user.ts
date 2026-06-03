@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction,User, EmbedBuilder, MessageFlags } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction,User, EmbedBuilder, MessageFlags , PermissionFlagsBits } from "discord.js";
 import { Command } from "../types";
 import { Bot } from "../types";
 import { UsersModel } from "../db/models/users"
@@ -7,6 +7,7 @@ const command: Command = {
   data: new SlashCommandBuilder()
     .setName("manage_user")
     .setDescription("manage a user")
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addUserOption((option) => option
         .setName("user")
         .setDescription("The user to manage")
