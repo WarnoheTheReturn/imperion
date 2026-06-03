@@ -2,6 +2,7 @@ import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, Message
 import { Command } from "../types";
 import { Bot } from "../types";
 import { GradesModel } from "../db/models/grades";
+import { fetchMember } from "../utils/fetchMember";
 
 const command: Command = {
   data: new SlashCommandBuilder()
@@ -47,7 +48,8 @@ const command: Command = {
     const gradeId = interaction.options.getString("grade") as string
     const grade = interaction.guild?.roles.cache.get(gradeId) as Role;
 
-    const allMembers = await interaction.guild?.members.fetch() as Map<string, GuildMember>;
+
+
     const userDb = await bot.db.tables.users.getAll();
     const gradeDb = await bot.db.tables.grades.getAll();
 
@@ -55,7 +57,8 @@ const command: Command = {
     for (const user of userDb) {
       if (user.data.current_grade === gradeId) {
         
-        const member = allMembers.get(user.data.id) as GuildMember;
+        const member = await fetchMember(interaction.guild as Guild, user.data.id);
+
         const role = interaction.guild?.roles.cache.get(user.data.current_grade) as Role;
         const currentGrade = gradeDb.find((grade) => grade.data.role_id === user.data.current_grade) as unknown as GradesModel;
         const previousGrade = gradeDb.find((grade) => grade.data.level === currentGrade.data.level - 1) 
