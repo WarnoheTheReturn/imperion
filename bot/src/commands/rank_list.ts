@@ -15,6 +15,7 @@ const command: Command = {
 
 
     const gradesDatas = await bot.db.tables.grades.getAll();
+    const orderedGrades = gradesDatas.sort((a, b) => a.data.level - b.data.level);
     if (gradesDatas.length === 0) {
       await interaction.editReply({ content : `❌ No grade found !` });
       return;
@@ -23,7 +24,7 @@ const command: Command = {
     const embed = new EmbedBuilder()
       .setTitle("Rank List")
       .setColor("#1840da");
-    for (const gradeData of gradesDatas) {
+    for (const gradeData of orderedGrades) {
       if (count >= 24) {
         break;
       }
