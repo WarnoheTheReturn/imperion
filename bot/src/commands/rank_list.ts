@@ -18,13 +18,19 @@ const command: Command = {
       await interaction.editReply({ content : `❌ No grade found !` });
       return;
     };
+    let count = 0;
     const embed = new EmbedBuilder()
       .setTitle("Rank List")
       .setColor("#1840da");
     for (const gradeData of gradesDatas) {
+      if (count >= 24) {
+        break;
+      }
       const role = interaction.guild?.roles.cache.get(gradeData.data.role_id) as Role;
       embed.addFields({ name: role.name, value: `<@&${role.id}> : Level: ${gradeData.data.level} | XP Requirements: ${gradeData.data.xp_requirements}` });
+      count++;
     }
+    embed.setFooter({ text: `Total ${gradesDatas.length} ranks (only 24 shown)` });
     await interaction.editReply({ embeds: [embed] });
 
   },
