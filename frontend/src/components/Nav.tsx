@@ -8,7 +8,7 @@ function Nav({isLoggedIn} : {isLoggedIn: boolean})  {
             return;
         }
         else {
-            const discordLink = "https://discord.com/oauth2/authorize?client_id=1506356153536479282&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A5173%2Fcallback%2Fdiscord&scope=guilds+identify+openid";
+            const discordLink = "https://discord.com/oauth2/authorize?client_id=1506356153536479282&response_type=code&redirect_uri=https%3A%2F%2Fimperion.onrender.com%2Fcallback%2Fdiscord&scope=guilds+openid+identify";
             window.location.href = discordLink;
         }
     };
