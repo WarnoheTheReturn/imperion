@@ -1,12 +1,35 @@
-import { Events, BaseInteraction, ChatInputCommandInteraction ,AutocompleteInteraction} from 'discord.js';
+import { Events, 
+  BaseInteraction, 
+  ChatInputCommandInteraction ,
+  AutocompleteInteraction,
+  MessageFlags
+} from 'discord.js';
+
+
 import { Event, Command, Bot } from '../types';
 
 const event: Event = {
   name: Events.InteractionCreate, 
   once: false,
   
+
   async execute(interaction: BaseInteraction, client: Bot) {
 
+    if (interaction.isButton()) {
+      return client.components.handleButton(interaction, client);
+    } 
+     else if (interaction.isUserSelectMenu()) {
+      return client.components.handleUserSelect(interaction, client);
+    }  
+     else if (interaction.isStringSelectMenu()) {
+      return client.components.handleStringSelect(interaction, client);
+    }
+     else if (interaction.isModalSubmit()) {
+      return client.components.handleModal(interaction, client);
+    }
+
+      
+    
 
     const commandInteraction = interaction as ChatInputCommandInteraction;
 
@@ -37,9 +60,9 @@ const event: Event = {
         console.error(`❌ Erreur with the execution of the command /${commandInteraction.commandName} :`, error);
         
         if (commandInteraction.replied || commandInteraction.deferred) {
-          await commandInteraction.followUp({ content: ' Erreur with the execution of the command  !', ephemeral: true });
+          await commandInteraction.followUp({ content: ' Erreur with the execution of the command  !', flags:   MessageFlags.Ephemeral });
         } else {
-          await commandInteraction.reply({ content: ' Erreur with the execution of the command  !', ephemeral: true });
+          await commandInteraction.reply({ content: ' Erreur with the execution of the command  !', flags:   MessageFlags.Ephemeral });
         }
       }
     };
