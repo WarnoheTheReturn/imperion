@@ -4,6 +4,7 @@ function Footer() {
     return (
         <footer className={styles.footer}>
             <div className={styles.footerContainer}>
+                <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
                 <p>&copy; {new Date().getFullYear()} Impérion. All rights reserved.</p>
                 <div className={styles.footerLinks}>
                     <a href="/tos">Terms of Service · </a>
