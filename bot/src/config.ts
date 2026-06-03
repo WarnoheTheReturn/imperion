@@ -15,24 +15,26 @@ let token: string;
 let secretKey: string;
 let redirectUri: string;
 let authorizeUrl: string;
-
+let clientId: string;
 
 if (dev) {
   authorizeUrl = getEnvVar("AUTHORIZE_URL");
   token = getEnvVar("DISCORD_TOKEN");
   secretKey = getEnvVar("DISCORD_SECRET_KEY");
   redirectUri = getEnvVar("REDIRECT_URI");
+  clientId = getEnvVar("DISCORD_CLIENT_ID");
 } else {
   authorizeUrl = getEnvVar("AUTHORIZE_URL_PROD");
   token = getEnvVar("DISCORD_TOKEN_PROD");
   secretKey = getEnvVar("DISCORD_SECRET_KEY_PROD");
   redirectUri = getEnvVar("REDIRECT_URI_PROD");
+  clientId = getEnvVar("DISCORD_CLIENT_ID_PROD");
 }
 
 export const config = {
   discord: {
     token: token,
-    clientId: getEnvVar("DISCORD_CLIENT_ID"),
+    clientId: clientId,
     clientSecret: secretKey,
     guildId: getEnvVar("DISCORD_GUILD_ID"),
   },
@@ -49,3 +51,8 @@ export const config = {
     authorizeUrl: authorizeUrl,
   },
 };
+
+console.log("Configuration loaded successfully");
+console.log("Discord Client ID:", config.discord.clientId);
+console.log("API Redirect URI:", config.api.redirectUri);
+console.log("API Authorize URL:", config.api.authorizeUrl);
