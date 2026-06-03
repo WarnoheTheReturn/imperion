@@ -7,7 +7,9 @@ function Card({ title = "None", description = "None", ...props } : { title?: str
         <div className="card">
             <h2 className="card-title">{title}</h2>
             <p className="card-description">{description}</p>
-            {props.children}
+            <div className="card-description">
+                {props.children}
+            </div>
         </div>
     );
 }
