@@ -16,6 +16,11 @@ let secretKey: string;
 let redirectUri: string;
 let authorizeUrl: string;
 let clientId: string;
+let dbHost: string;
+let dbPort: number;
+let dbUser: string;
+let dbPassword: string;
+let dbName: string;
 
 if (dev) {
   authorizeUrl = getEnvVar("AUTHORIZE_URL");
@@ -23,12 +28,22 @@ if (dev) {
   secretKey = getEnvVar("DISCORD_SECRET_KEY");
   redirectUri = getEnvVar("REDIRECT_URI");
   clientId = getEnvVar("DISCORD_CLIENT_ID");
+  dbHost = getEnvVar("DB_HOST");
+  dbPort = parseInt(getEnvVar("DB_PORT"), 10);
+  dbUser = getEnvVar("DB_USER");
+  dbPassword = getEnvVar("DB_PASSWORD", true);
+  dbName = getEnvVar("DB_NAME");
 } else {
   authorizeUrl = getEnvVar("AUTHORIZE_URL_PROD");
   token = getEnvVar("DISCORD_TOKEN_PROD");
   secretKey = getEnvVar("DISCORD_SECRET_KEY_PROD");
   redirectUri = getEnvVar("REDIRECT_URI_PROD");
   clientId = getEnvVar("DISCORD_CLIENT_ID_PROD");
+  dbHost = getEnvVar("DB_HOST_PROD");
+  dbPort = parseInt(getEnvVar("DB_PORT_PROD"), 10);
+  dbUser = getEnvVar("DB_USER_PROD");
+  dbPassword = getEnvVar("DB_PASSWORD_PROD", true);
+  dbName = getEnvVar("DB_NAME_PROD");
 }
 
 export const config = {
@@ -39,11 +54,11 @@ export const config = {
     guildId: getEnvVar("DISCORD_GUILD_ID"),
   },
   db: {
-    host: getEnvVar("DB_HOST"),
-    port: parseInt(getEnvVar("DB_PORT"), 10),
-    user: getEnvVar("DB_USER"),
-    password: getEnvVar("DB_PASSWORD", true), 
-    name: getEnvVar("DB_NAME"),
+    host: dbHost,
+    port: dbPort,
+    user: dbUser,
+    password: dbPassword, 
+    name: dbName,
   },
   api: {
     port: parseInt(getEnvVar("PORT"), 10),
