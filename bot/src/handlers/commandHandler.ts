@@ -13,9 +13,14 @@ export async function loadCommands(client: Bot): Promise<void> {
     return;
   }
 
-  const files = fs
-    .readdirSync(commandsPath)
-    .filter(f => (f.endsWith(".ts") || f.endsWith(".js"))  && !f.endsWith('.d.ts'));
+  const dirents = fs.readdirSync(commandsPath, { withFileTypes: true, recursive: true });
+
+  const files = dirents
+    .filter(dirent => dirent.isFile() && (dirent.name.endsWith(".ts") || dirent.name.endsWith(".js")) && !dirent.name.endsWith('.d.ts'))
+    .map(dirent => `${dirent.parentPath}\\${dirent.name}`);
+
+
+
 
   if (files.length === 0) {
     console.log("⚠️ No commands were found");
@@ -25,9 +30,13 @@ export async function loadCommands(client: Bot): Promise<void> {
 
 
 
-  for (const file of files) {
-    const filePath = path.join(commandsPath, file);
+  for (const filePath of files) {
+    // const filePath = path.join(commandsPath, file);
+    const fileName = path.basename(filePath);
     try {
+      
+
+
       const command: Command = require(filePath).default;
       
         
@@ -35,10 +44,10 @@ export async function loadCommands(client: Bot): Promise<void> {
         commands.set(command.data.name, command);
         console.log(`✅ Command loaded : ${command.data.name}`);
       } else {
-        console.log(`❌ Command ${file} is not in the correct format.`);
+        console.log(`❌ Command ${fileName} is not in the correct format.`);
       }
     } catch (error) {
-      console.log(`❌ Unable to load the command ${file} :`, error);
+      console.log(`❌ Unable to load the command ${fileName} :`, error);
     }
   }
 

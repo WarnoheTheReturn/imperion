@@ -1,9 +1,9 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction,AutocompleteInteraction, EmbedBuilder, MessageFlags, PermissionFlagsBits, ChannelType } from "discord.js";
-import { Command } from "../types";
-import { Bot } from "../types";
-import { EventState } from "../types/index";
-import {activeEvents, channelEvents, eventTypes,eventParticipants} from "../store/event"
-import { addXp } from "../events/voiceStateUpdate";
+import { Command } from "../../types";
+import { Bot } from "../../types";
+import { EventState } from "../../types/index";
+import {activeEvents, channelEvents, eventTypes,eventParticipants} from "../../store/event"
+import { addXp } from "../../events/voiceStateUpdate";
 
 
 const command: Command = {
