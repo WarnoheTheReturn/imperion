@@ -1,11 +1,11 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction,User,GuildMember,Role, EmbedBuilder, MessageFlags, PermissionFlagsBits } from "discord.js";
-import { Command } from "../types";
-import { Bot } from "../types";
+import { Command } from "../../types";
+import { Bot } from "../../types";
 
 
 const command: Command = {
   data: new SlashCommandBuilder()
-    .setName("demotion")
+    .setName("grade-user-demotion")
     .setDescription("demote a member")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addUserOption((option) => option

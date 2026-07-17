@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
-import { Command } from "../types";
-import { Bot } from "../types";
+import { Command } from "../../types";
+import { Bot } from "../../types";
 
 const command: Command = {
   data: new SlashCommandBuilder()

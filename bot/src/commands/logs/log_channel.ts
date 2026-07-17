@@ -1,11 +1,11 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, TextChannel , PermissionFlagsBits } from "discord.js";
-import { Command, LogChannelType } from "../types";
-import { Bot } from "../types";
-import { LogsLogChannelRow } from "../db/models/logs_log_channel";
+import { Command, LogChannelType } from "../../types";
+import { Bot } from "../../types";
+import { LogsLogChannelRow } from "../../db/models/logs_log_channel";
 
 const command: Command = {
   data: new SlashCommandBuilder()
-    .setName("log_channel")
+    .setName("log-channel-add")
     .setDescription("add a log channel to the database")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption((option) => option

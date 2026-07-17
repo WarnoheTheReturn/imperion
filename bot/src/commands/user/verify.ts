@@ -17,12 +17,12 @@ import { SlashCommandBuilder,
     Guild,
 
 } from "discord.js";
-import { Command } from "../types";
-import { Bot } from "../types";
-import { verifySessions , waitForVerify} from "../store/verifySession";
-import { UsersModel, UserData } from "../db/models/users";
-import { GradesModel } from "../db/models/grades";
-import {fetchMember} from "../utils/fetchMember";
+import { Command } from "../../types";
+import { Bot } from "../../types";
+import { verifySessions , waitForVerify} from "../../store/verifySession";
+import { UsersModel, UserData } from "../../db/models/users";
+import { GradesModel } from "../../db/models/grades";
+import {fetchMember} from "../../utils/fetchMember";
 
 
 
@@ -32,11 +32,7 @@ const command: Command = {
     .setDescription("Lance la vérification") as SlashCommandBuilder,
 
   execute: async (interaction: ChatInputCommandInteraction, bot: Bot) => {
-
-
-    const sent = await interaction.deferReply();
-
-
+    const sent = await interaction.deferReply( { flags: MessageFlags.Ephemeral });
 
     const grades = await bot.db.tables.grades.getAll(); // switch with SELECT * FROM grades LIMIT 1 ORDER BY level ASC; for testing
     const gradeSorted = grades.sort((a, b) => a.data.level - b.data.level);
@@ -88,20 +84,20 @@ const command: Command = {
 
 
 
-      .addTextDisplayComponents(
-        new TextDisplayBuilder().setContent("**2.** In which timezone are you located ?")
-      )
-      .addActionRowComponents(
-        new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
-          bot.components.stringSelects.verify_timezone_select.component
-        )
-      )
-      .addSeparatorComponents(new SeparatorBuilder())
+      // .addTextDisplayComponents(
+      //   new TextDisplayBuilder().setContent("**2.** In which timezone are you located ?")
+      // )
+      // .addActionRowComponents(
+      //   new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+      //     bot.components.stringSelects.verify_timezone_select.component
+      //   )
+      // )
+      // .addSeparatorComponents(new SeparatorBuilder())
 
 
 
       .addTextDisplayComponents(
-        new TextDisplayBuilder().setContent("**3.** How did you find our faction ?")
+        new TextDisplayBuilder().setContent("**2.** How did you find our faction ?")
       )
       .addActionRowComponents(
         new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -112,7 +108,7 @@ const command: Command = {
       .addSeparatorComponents(new SeparatorBuilder())
 
       .addTextDisplayComponents(
-        new TextDisplayBuilder().setContent("**4.** Join the Roblox group and verify your roblox account.")
+        new TextDisplayBuilder().setContent("**3.** Join the Roblox group and verify your roblox account.")
           
       ).addActionRowComponents(
         new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -155,7 +151,7 @@ const command: Command = {
       userData.data.current_grade = verifiedGrade.data.role_id;
       userData.data.enlistment_date = new Date();
       userData.data.roblox_id = session.robloxId!;
-      userData.data.timezone = session.timezone!;
+      userData.data.timezone = "";//session.timezone!
       userData.data.how_found = session.howFound!;
       userData.data.recruiter_id = session.recruitedBy ?? null;
       
@@ -174,14 +170,14 @@ const command: Command = {
         inactivity_duration: null,
           
         roblox_id: session.robloxId!,
-        timezone : session.timezone!,
+        timezone : "",//session.timezone!
         how_found : session.howFound!,
         recruiter_id: session.recruitedBy ?? null,
         enlistment_date: new Date()
       };
       await bot.db.tables.users.create(memberData);
     }
-    await bot.log.logEnlistment(interaction.user.id, session.robloxId!, session.recruitedBy ?? null, session.timezone!, session.howFound!);
+    await bot.log.logEnlistment(interaction.user.id, session.robloxId!, session.recruitedBy ?? null, "", session.howFound!);
     await interaction.editReply({
         components: [
             new ContainerBuilder()

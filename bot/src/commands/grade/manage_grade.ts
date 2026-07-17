@@ -1,12 +1,12 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, User, Role , AutocompleteInteraction, Guild, GuildMember , PermissionFlagsBits} from "discord.js";
-import { Command } from "../types";
-import { Bot } from "../types";
-import { GradesModel } from "../db/models/grades";
-import { fetchMember } from "../utils/fetchMember";
+import { Command } from "../../types";
+import { Bot } from "../../types";
+import { GradesModel } from "../../db/models/grades";
+import { fetchMember } from "../../utils/fetchMember";
 
 const command: Command = {
   data: new SlashCommandBuilder()
-    .setName("manage_grade")
+    .setName("grade-manage-modify")
     .setDescription("modify a grade")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption((option) => option

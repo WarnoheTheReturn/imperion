@@ -1,11 +1,11 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction,User,GuildMember,Role, EmbedBuilder, MessageFlags , PermissionFlagsBits } from "discord.js";
-import { Command } from "../types";
-import { Bot } from "../types";
+import { Command } from "../../types";
+import { Bot } from "../../types";
 
 
 const command: Command = {
   data: new SlashCommandBuilder()
-    .setName("rank_list")
+    .setName("grade-manage-list")
     .setDescription("List all ranks")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator) as SlashCommandBuilder,
 

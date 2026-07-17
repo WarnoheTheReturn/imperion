@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction,User, Role, GuildMember, EmbedBuilder, MessageFlags, Guild , PermissionFlagsBits } from "discord.js";
-import { Command } from "../types";
-import { Bot } from "../types";
-import { UserData, UsersModel } from "../db/models/users"
+import { Command } from "../../types";
+import { Bot } from "../../types";
+import { UserData, UsersModel } from "../../db/models/users"
 
 const command: Command = {
   data: new SlashCommandBuilder()

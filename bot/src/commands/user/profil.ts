@@ -12,11 +12,11 @@ import { SlashCommandBuilder,
 
 
 
-import { Command } from "../types";
-import { Bot } from "../types";
-import { UsersModel } from "../db/models/users"
-import { GradesModel } from "../db/models/grades"
-import {robloxProfilPictureURL} from "../utils/roblox";
+import { Command } from "../../types";
+import { Bot } from "../../types";
+import { UsersModel } from "../../db/models/users"
+import { GradesModel } from "../../db/models/grades"
+import {robloxProfilPictureURL} from "../../utils/roblox";
 
 const command: Command = {
   data: new SlashCommandBuilder()
@@ -25,13 +25,16 @@ const command: Command = {
     .addUserOption((option) => option
         .setName("user")
         .setDescription("The user to view")
-        .setRequired(true)
     ) as SlashCommandBuilder,
 
   execute: async (interaction: ChatInputCommandInteraction, bot: Bot) => {
     const sent = await interaction.deferReply();
 
-    const user = interaction.options.getUser("user") as User;
+    let user = interaction.options.getUser("user") as User;
+    if (!user) {
+      user = interaction.user;
+    }
+
     const userData : UsersModel | null = await bot.db.tables.users.getById(user.id);
     if (!userData) {
       await interaction.editReply({ content : `❌ ${user.globalName} is not enlisted !` });
@@ -49,13 +52,17 @@ const command: Command = {
 
     const robloxProfilPicture = await robloxProfilPictureURL(userData.data.roblox_id);
 
-    const color = userData.data.black_listed ? 0xFF0000 : userData.data.in_faction ? 0x00aeff : 0x252525;
+    const color = 
+      userData.data.black_listed ? 0X000000 : 
+      userData.data.is_inactivity ? 0Xd4d100 : 
+      userData.data.in_faction ? 0X34b302 : 
+      0X575757;
 
     const statusBadge = 
-      userData.data.black_listed ? "🚫 **Blacklisted** " : 
-      userData.data.is_inactivity ? "🟡 **On inactivity**" : 
-      userData.data.in_faction ? "🟢 **Active**" : 
-      "⚫ **Not in faction**";
+      userData.data.black_listed ? "**Blacklisted** " : 
+      userData.data.is_inactivity ? "**On inactivity**" : 
+      userData.data.in_faction ? "**Active**" : 
+      "**Not in faction**";
 
     const enlistDate = `${userData.data.enlistment_date.getDate()}/${
       userData.data.enlistment_date.getMonth() + 1}/${
@@ -63,9 +70,9 @@ const command: Command = {
 
     let extraLines = "";
     if (userData.data.is_inactivity)
-      extraLines += `\n> 🕐 **Inactivity until** : ${userData.data.inactivity_duration}`;
+      extraLines += `\n> **Inactivity until** : ${userData.data.inactivity_duration}`;
     if (userData.data.rank_lock_grade_id !== null)
-      extraLines += `\n> 🔒 **Rank lock until** : <@&${userData.data.rank_lock_grade_id}>`;
+      extraLines += `\n> **Rank lock until** : <@&${userData.data.rank_lock_grade_id}>`;
 
     const container = new ContainerBuilder()
       .setAccentColor(color)
@@ -86,10 +93,10 @@ const command: Command = {
       .addTextDisplayComponents(
         new TextDisplayBuilder().setContent(
           [
-            `> 🎖️ **Grade** : <@&${userData.data.current_grade}>`,
-            `> ⭐ **XP** : \`${userData.data.xp}/${xp_requirements}\` — Next: <@&${next_grade_id}>`,
-            `> 🎮 **Roblox** : [View profile](https://www.roblox.com/users/${userData.data.roblox_id}/profile)`,
-            `> 📅 **Enlisted** : ${enlistDate}`,
+            `>  **Grade** : <@&${userData.data.current_grade}>`,
+            `>  **XP** : \`${userData.data.xp}/${xp_requirements}\` — Next: <@&${next_grade_id}>`,
+            `>  **Roblox** : [View profile](https://www.roblox.com/users/${userData.data.roblox_id}/profile)`,
+            `>  **Enlisted** : ${enlistDate}`,
             extraLines,
           ].join("\n")
         )
