@@ -1,12 +1,21 @@
 import { Event, Bot } from "../types";
 import {EventState} from "../types/index";
 import {activeEvents, channelEvents, eventTypes,eventParticipants} from "../store/event"
+import {Events,ChannelType} from "discord.js"
+import { joinEvent } from "./voiceStateUpdate";
 
 const event: Event = {
-  name: "clientReady",
+  name: Events.ClientReady,
   once: true,
   async execute(client: Bot) {
     await client.guilds.cache.first()?.members.fetch();
+    await client.guilds.cache.first()?.channels.fetch();
+    await client.guilds.cache.first()?.roles.fetch();
+    const testConnection = await client.db.testConnection()
+    if (!testConnection) {
+      console.error("❌ Database connection failed");
+      process.exit(1);
+    }
 
     const allEvent = await client.db.tables.logs_event.getAll();
     const allEventChannels = await client.db.tables.event_channels.getAll();
@@ -20,6 +29,20 @@ const event: Event = {
         if (eventType) {
           eventTypes.set(eventType.data.id, eventType.data);
         }
+        for (const channelData of allEventChannels) {
+            const channel  = await client.channels.cache.get(channelData.data.channel_id);
+        
+            if (!channel || channel.type !== ChannelType.GuildStageVoice && channel.type !== ChannelType.GuildVoice) {
+              await client.log.logEventChannelNotFound(`Channel <#${channelData.data.channel_id}> not found !`);
+              return;
+            };
+        
+            for (const [id,member] of channel.members) {
+              await joinEvent(event.data.id.toString(),channelData,member.id)
+            }
+          }
+        
+        console.info(`✅ Event ${event.data.name} restarted`);
       }
     }
 
