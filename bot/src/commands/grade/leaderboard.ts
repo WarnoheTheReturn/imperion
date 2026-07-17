@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, User, Role ,GuildMember} from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, User, Role ,GuildMember, InteractionContextType} from "discord.js";
 import { Command } from "../../types";
 import { Bot } from "../../types";
 import { GradesModel } from "../../db/models/grades";
@@ -6,7 +6,8 @@ import { GradesModel } from "../../db/models/grades";
 const command: Command = {
   data: new SlashCommandBuilder()
     .setName("leaderboard")
-    .setDescription("List all members xp") as SlashCommandBuilder,
+    .setDescription("List all members xp")
+    .setContexts(InteractionContextType.Guild) as SlashCommandBuilder,
 
   execute: async (interaction: ChatInputCommandInteraction, bot: Bot) => {
     const sent = await interaction.deferReply();

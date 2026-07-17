@@ -1,11 +1,12 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, InteractionContextType } from "discord.js";
 import { Command } from "../../types";
 import { Bot } from "../../types";
 
 const command: Command = {
   data: new SlashCommandBuilder()
     .setName("ping")
-    .setDescription("Reply the bot latency"),
+    .setDescription("Reply the bot latency")
+    .setContexts(InteractionContextType.Guild),
 
   execute: async (interaction: ChatInputCommandInteraction, bot: Bot) => {
     const sent = await interaction.deferReply({flags : MessageFlags.Ephemeral});

@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, User, Role, PermissionFlagsBits} from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, User, Role, PermissionFlagsBits, ChannelType , InteractionContextType } from "discord.js";
 import { Command } from "../../types";
 import { Bot } from "../../types";
 import { GradesData } from "../../db/models/grades";
@@ -7,6 +7,7 @@ const command: Command = {
   data: new SlashCommandBuilder()
     .setName("grade-manage-add")
     .setDescription("add a grade to the database")
+    .setContexts(InteractionContextType.Guild)
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addRoleOption((option) => option
         .setName("grade")

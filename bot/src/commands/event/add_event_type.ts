@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, PermissionFlagsBits, ChannelType } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, PermissionFlagsBits, ChannelType , InteractionContextType } from "discord.js";
 import { Command } from "../../types";
 import { Bot } from "../../types";
 import { EventTypeData } from "../../db/models/event_type";
@@ -10,6 +10,7 @@ const command: Command = {
   data: new SlashCommandBuilder()
     .setName("event-type-add")
     .setDescription("add an event type")
+    .setContexts(InteractionContextType.Guild)
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption((option) => option
         .setName("name")

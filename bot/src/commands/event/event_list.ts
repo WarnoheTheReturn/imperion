@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags ,PermissionFlagsBits, Embed } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags ,PermissionFlagsBits, Embed, InteractionContextType } from "discord.js";
 import { Command } from "../../types";
 import { Bot } from "../../types";
 import { EventState } from "../../types/index";
@@ -8,6 +8,7 @@ const command: Command = {
   data: new SlashCommandBuilder()
     .setName("event-manage-list")
     .setDescription("remove an event channel")
+    .setContexts(InteractionContextType.Guild)
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator) as SlashCommandBuilder,
 
   execute: async (interaction: ChatInputCommandInteraction, bot: Bot) => {

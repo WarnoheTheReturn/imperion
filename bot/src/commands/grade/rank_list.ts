@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction,User,GuildMember,Role, EmbedBuilder, MessageFlags , PermissionFlagsBits } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction,User,GuildMember,Role, EmbedBuilder, MessageFlags , PermissionFlagsBits, InteractionContextType } from "discord.js";
 import { Command } from "../../types";
 import { Bot } from "../../types";
 
@@ -7,7 +7,8 @@ const command: Command = {
   data: new SlashCommandBuilder()
     .setName("grade-manage-list")
     .setDescription("List all ranks")
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator) as SlashCommandBuilder,
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setContexts(InteractionContextType.Guild) as SlashCommandBuilder,
 
   execute: async (interaction: ChatInputCommandInteraction, bot: Bot) => {
     const sent = await interaction.deferReply();

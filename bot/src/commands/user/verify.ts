@@ -15,6 +15,7 @@ import { SlashCommandBuilder,
     GuildMember,
     Role ,
     Guild,
+    InteractionContextType
 
 } from "discord.js";
 import { Command } from "../../types";
@@ -29,7 +30,8 @@ import {fetchMember} from "../../utils/fetchMember";
 const command: Command = {
   data: new SlashCommandBuilder()
     .setName("verify")
-    .setDescription("Lance la vérification") as SlashCommandBuilder,
+    .setDescription("Lance la vérification")
+    .setContexts(InteractionContextType.Guild) as SlashCommandBuilder,
 
   execute: async (interaction: ChatInputCommandInteraction, bot: Bot) => {
     const sent = await interaction.deferReply( { flags: MessageFlags.Ephemeral });

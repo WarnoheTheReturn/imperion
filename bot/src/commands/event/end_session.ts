@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction,AutocompleteInteraction, EmbedBuilder, MessageFlags, PermissionFlagsBits, ChannelType, InteractionContextType ,Events} from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction,AutocompleteInteraction, EmbedBuilder, MessageFlags, PermissionFlagsBits, ChannelType, InteractionContextType} from "discord.js";
 import { Command, LogChannelType } from "../../types";
 import { Bot } from "../../types";
 import { EventState } from "../../types/index";
@@ -15,6 +15,7 @@ const command: Command = {
   data: new SlashCommandBuilder()
     .setName("event-manage-end")
     .setDescription("end an event")
+    .setContexts(InteractionContextType.Guild)
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption((option) => option
         .setName("name")

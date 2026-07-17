@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction,Role, GuildMember, EmbedBuilder, MessageFlags, User, PermissionFlagsBits } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction,Role, GuildMember, EmbedBuilder, MessageFlags, User, PermissionFlagsBits, InteractionContextType } from "discord.js";
 import { Command } from "../../types";
 import { Bot } from "../../types";
 import { UserData, UsersModel } from "../../db/models/users"
@@ -9,6 +9,7 @@ const command: Command = {
     .setName("enlistment")
     .setDescription("add a member to the faction")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setContexts(InteractionContextType.Guild)
     .addUserOption((option) => option
         .setName("user")
         .setDescription("The user to add")

@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, AutocompleteInteraction, EmbedBuilder, MessageFlags, PermissionFlagsBits, ChannelType } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, AutocompleteInteraction, EmbedBuilder, MessageFlags, PermissionFlagsBits, ChannelType,InteractionContextType } from "discord.js";
 import { Command } from "../../types";
 import { Bot } from "../../types";
 
@@ -9,6 +9,7 @@ const command: Command = {
   data: new SlashCommandBuilder()
     .setName("event-type-remove")
     .setDescription("remove an event type")
+    .setContexts(InteractionContextType.Guild)
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption((option) => option
         .setName("name")

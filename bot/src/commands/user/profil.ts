@@ -8,6 +8,7 @@ import { SlashCommandBuilder,
   TextDisplayBuilder,
   ThumbnailBuilder,
   SeparatorBuilder,
+  InteractionContextType
 } from "discord.js";
 
 
@@ -22,6 +23,7 @@ const command: Command = {
   data: new SlashCommandBuilder()
     .setName("profil")
     .setDescription("view a member's profile")
+    .setContexts(InteractionContextType.Guild)
     .addUserOption((option) => option
         .setName("user")
         .setDescription("The user to view")

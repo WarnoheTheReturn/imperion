@@ -1,11 +1,12 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, InteractionContextType } from "discord.js";
 import { Command } from "../../types";
 import { Bot } from "../../types";
 
 const command: Command = {
   data: new SlashCommandBuilder()
     .setName("info_bot")
-    .setDescription("info about the bot") as SlashCommandBuilder,
+    .setDescription("info about the bot")
+    .setContexts(InteractionContextType.Guild) as SlashCommandBuilder,
 
   execute: async (interaction: ChatInputCommandInteraction, bot: Bot) => {
     const sent = await interaction.deferReply();

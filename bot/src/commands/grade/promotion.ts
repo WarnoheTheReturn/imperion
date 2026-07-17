@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction,User,GuildMember,Role, EmbedBuilder, MessageFlags , PermissionFlagsBits } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction,User,GuildMember,Role, EmbedBuilder, MessageFlags , PermissionFlagsBits,InteractionContextType } from "discord.js";
 import { Command } from "../../types"; 
 import { Bot } from "../../types";
 
@@ -8,6 +8,7 @@ const command: Command = {
     .setName("grade-user-promotion")
     .setDescription("promote a member")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setContexts(InteractionContextType.Guild)
     .addUserOption((option) => option
         .setName("user")
         .setDescription("The username of the user you want to promote")

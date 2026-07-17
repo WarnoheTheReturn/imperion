@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, User,EmbedBuilder, MessageFlags , PermissionFlagsBits } from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, User,EmbedBuilder, MessageFlags , PermissionFlagsBits, InteractionContextType } from "discord.js";
 import { Command } from "../../types";
 import { Bot } from "../../types";
 import { UsersModel } from "../../db/models/users"
@@ -8,6 +8,7 @@ const command: Command = {
     .setName("xp")
     .setDescription("xp command")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setContexts(InteractionContextType.Guild)
     .addUserOption((option) => option
         .setName("user")
         .setDescription("The username of the user that you’d like to view / edit.")

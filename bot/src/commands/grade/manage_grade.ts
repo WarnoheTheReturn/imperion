@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, User, Role , AutocompleteInteraction, Guild, GuildMember , PermissionFlagsBits} from "discord.js";
+import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, User, Role , AutocompleteInteraction, Guild, GuildMember , PermissionFlagsBits, InteractionContextType} from "discord.js";
 import { Command } from "../../types";
 import { Bot } from "../../types";
 import { GradesModel } from "../../db/models/grades";
@@ -9,6 +9,7 @@ const command: Command = {
     .setName("grade-manage-modify")
     .setDescription("modify a grade")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .setContexts(InteractionContextType.Guild)
     .addStringOption((option) => option
         .setName("grade")
         .setDescription("The grade to modify")
