@@ -1,13 +1,13 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, AutocompleteInteraction, EmbedBuilder, MessageFlags, PermissionFlagsBits, ChannelType } from "discord.js";
-import { Command } from "../types";
-import { Bot } from "../types";
+import { Command } from "../../types";
+import { Bot } from "../../types";
 
 
 
 
 const command: Command = {
   data: new SlashCommandBuilder()
-    .setName("remove_event_type")
+    .setName("event-type-remove")
     .setDescription("remove an event type")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption((option) => option
@@ -27,12 +27,12 @@ const command: Command = {
   },
 
   execute: async (interaction: ChatInputCommandInteraction, bot: Bot) => {
-    const sent = await interaction.deferReply();
+  const sent = await interaction.deferReply();
 
-    const eventTypeId  = interaction.options.getString("name", true);
+  const eventTypeId  = interaction.options.getString("name", true);
 
-    await bot.db.tables.event_type.delete(eventTypeId);
-    await interaction.editReply({ content : `✅ Event type removed !` });
+  await bot.db.tables.event_type.delete(eventTypeId);
+  await interaction.editReply({ content : `✅ Event type removed !` });
 
     
   },

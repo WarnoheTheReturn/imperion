@@ -6,7 +6,7 @@ import { EventChannelsData } from "../../db/models/events_channel";
 
 const command: Command = {
   data: new SlashCommandBuilder()
-    .setName("add_event_channel")
+    .setName("event-channel-add")
     .setDescription("add an event channel")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addChannelOption((option) => option
@@ -22,25 +22,25 @@ const command: Command = {
     ) as SlashCommandBuilder,
 
   execute: async (interaction: ChatInputCommandInteraction, bot: Bot) => {
-    const sent = await interaction.deferReply();
+  const sent = await interaction.deferReply();
 
-    const channel = interaction.options.getChannel("channel", true);
-    const xp_pourcentage = interaction.options.getInteger("xp_pourcentage", true);
+  const channel = interaction.options.getChannel("channel", true);
+  const xp_pourcentage = interaction.options.getInteger("xp_pourcentage", true);
 
-    const channelData  = await bot.db.tables.event_channels.getById(channel.id.toString());
+  const channelData  = await bot.db.tables.event_channels.getById(channel.id.toString());
 
-    if (channelData ) {
-      await interaction.editReply({ content : `❌ Log channel already exists !` });
-      return;
-    } 
+  if (channelData ) {
+    await interaction.editReply({ content : `❌ Log channel already exists !` });
+    return;
+  } 
 
-    const logChannelData : EventChannelsData = {
-      channel_id: channel.id.toString(),
-      xp_pourcentage: xp_pourcentage,
-    };
+  const logChannelData : EventChannelsData = {
+    channel_id: channel.id.toString(),
+    xp_pourcentage: xp_pourcentage,
+  };
 
-    await bot.db.tables.event_channels.create(logChannelData);
-    await interaction.editReply({ content : `✅ Log channel added !` });
+  await bot.db.tables.event_channels.create(logChannelData);
+  await interaction.editReply({ content : `✅ Log channel added !` });
 
   },
 };

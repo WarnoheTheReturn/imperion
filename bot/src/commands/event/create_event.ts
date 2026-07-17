@@ -1,9 +1,9 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction,AutocompleteInteraction, EmbedBuilder, MessageFlags, PermissionFlagsBits, ChannelType } from "discord.js";
-import { Command } from "../types";
-import { Bot } from "../types";
-import { EventTypeModel } from "../db/models/event_type";
-import { LogsEventModel ,LogsEventData} from "../db/models/logs_event";
-import {EventState} from "../types/index";
+import { Command } from "../../types";
+import { Bot } from "../../types";
+import { EventTypeModel } from "../../db/models/event_type";
+import { LogsEventModel ,LogsEventData} from "../../db/models/logs_event";
+import {EventState} from "../../types/index";
 
 
 const command: Command = {
@@ -33,36 +33,36 @@ const command: Command = {
     },
 
   execute: async (interaction: ChatInputCommandInteraction, bot: Bot) => {
-    const sent = await interaction.deferReply();
+  const sent = await interaction.deferReply();
 
-    const eventName = interaction.options.getString("name", true);
-    const typeId = interaction.options.getString("type", true);
+  const eventName = interaction.options.getString("name", true);
+  const typeId = interaction.options.getString("type", true);
 
-    const eventType = await bot.db.tables.event_type.getById(typeId);
-    if (!eventType) {
-      await interaction.editReply({ content : `❌ Event type not found !` });
-      return;
-    }
+  const eventType = await bot.db.tables.event_type.getById(typeId);
+  if (!eventType) {
+    await interaction.editReply({ content : `❌ Event type not found !` });
+    return;
+  }
 
-    const allLogsEvent = await bot.db.tables.logs_event.getAll();
+  const allLogsEvent = await bot.db.tables.logs_event.getAll();
 
-    const maxId = allLogsEvent.reduce((max, logEvent) => Math.max(max, logEvent.data.id), 0);
+  const maxId = allLogsEvent.reduce((max, logEvent) => Math.max(max, logEvent.data.id), 0);
 
-    const logEventId = maxId + 1;
+  const logEventId = maxId + 1;
 
-    const logEventModel : LogsEventData = {
-        id: logEventId,
-        name: eventName,
-        type_id: Number(typeId),
-        host_id: interaction.user.id,
-        start_time: null,
-        end_time: null,
-        created_at: new Date(),
-        status: EventState.CREATED,
-    };
+  const logEventModel : LogsEventData = {
+      id: logEventId,
+      name: eventName,
+      type_id: Number(typeId),
+      host_id: interaction.user.id,
+      start_time: null,
+      end_time: null,
+      created_at: new Date(),
+      status: EventState.CREATED,
+  };
 
-    await bot.db.tables.logs_event.create(logEventModel);
-    await interaction.editReply({ content : `✅ Event created !` });
+  await bot.db.tables.logs_event.create(logEventModel);
+  await interaction.editReply({ content : `✅ Event created !` });
 
   },
 };
