@@ -48,6 +48,6 @@
     "allowSyntheticDefaultImports": true,
   },
 
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "private/index.ts"],
   "exclude": ["node_modules" , "dist"]
 }
