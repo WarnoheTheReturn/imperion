@@ -33,8 +33,11 @@ export interface Event {
 
 
 export class LogChannelType {
+  static readonly GENERAL = "general"
   static readonly GRADES = "grades"
   static readonly ENLISTMENT = "enlistment";
+  static readonly EVENT = "event";
+
 
 }
 
