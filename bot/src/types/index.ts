@@ -91,3 +91,9 @@ export class Bot extends Client {
   public config : typeof config = config;
   public components : ComponentStore = new ComponentStore();
 }
+
+export type DiscordSession = {
+  discordAccessToken: string;
+  discordUserId: string;
+  expiresAt: number;
+}

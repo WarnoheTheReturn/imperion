@@ -20,13 +20,13 @@ function CallbackDiscord({ setUser }: CallbackDiscordProps) {
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code');
 
-        console.log('Authorization code:', code);
         if (!code) {
             setStatus("Erreur : Aucun code d'autorisation trouvé.");
             setTimeout(() => navigate('/'), 3000);
+            return;
         }
 
-        const fecthDiscordCallback = async () => {
+        const fetchDiscordCallback = async () => {
             try {
                 const response = await fetch(`/api/callback/discord`, {
                     method: 'POST',
@@ -37,7 +37,6 @@ function CallbackDiscord({ setUser }: CallbackDiscordProps) {
                 });
 
                 const data = await response.json();
-                console.log(data);
                 if (data.success) {
                     setStatus(data.message);
                     setUser(data.user);
@@ -53,7 +52,7 @@ function CallbackDiscord({ setUser }: CallbackDiscordProps) {
             }
         };
 
-        fecthDiscordCallback();
+        fetchDiscordCallback();
     }, []);
 
     return <div>{status}</div>

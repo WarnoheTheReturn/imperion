@@ -3,7 +3,11 @@ import path from 'path';
 import {Bot} from '../types';
 import cookiesParser from 'cookie-parser';
 import { consumeToken } from '../store/verifyToken';
-import {verifySessions} from '../store/verifySession';
+import {verifySessions,createDiscordSession} from '../store/verifySession';
+import { discordSessions } from '../store/verifySession';
+
+
+
 
 export const createServer = (client : Bot) => {
     const app = express();
@@ -12,7 +16,6 @@ export const createServer = (client : Bot) => {
 
     app.post('/api/callback/discord', async (req, res) => {
         const { code } = req.body;
-        console.log('Received Discord callback with code:', code);
 
         try {
             const params = new URLSearchParams();
@@ -39,8 +42,6 @@ export const createServer = (client : Bot) => {
             }
 
 
-            console.log('Discord token:', data.access_token);
-            // res.json({ success: true, message: 'Discord token fetched successfully' });
 
 
             const userResponse = await fetch('https://discord.com/api/users/@me', {
@@ -51,12 +52,13 @@ export const createServer = (client : Bot) => {
 
             const userData = await userResponse.json();
 
-            console.log("ID Discord de l'utilisateur :", userData.id);
-            console.log("Pseudo de l'utilisateur :", userData.username);
+            const sessionId = createDiscordSession(data.access_token,userData.id) 
 
-            res.cookie('discord_token', data.access_token, {
+            res.cookie('__Host-imperion_session', sessionId, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production', 
+                sameSite: 'lax', 
+                path: '/', 
                 maxAge: 1000 * 60 * 60 * 24 
             });
 
@@ -64,12 +66,7 @@ export const createServer = (client : Bot) => {
            
             res.json({ 
                 success: true, 
-                message: "Authentification réussie",
-                user: {
-                    id: userData.id,
-                    username: userData.username,
-                    avatar: `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`
-                }
+                message: "Authentification réussie"
             });
 
 
@@ -116,7 +113,6 @@ export const createServer = (client : Bot) => {
             });
 
             const robloxUser = await userRes.json();
-            console.log(robloxUser);
 
 
             const session = verifySessions.get(discordUserId);
@@ -145,15 +141,26 @@ export const createServer = (client : Bot) => {
     });
 
     app.get('/api/me', async (req, res) => {
-        const token = req.cookies.discord_token;
+        const sessionId = req.cookies["__Host-imperion_session"];
 
-        if (!token) {
-            return res.status(401).json({ user: null });
+        if (typeof sessionId !== 'string') {
+            return res.status(401).json({ user: null, error : "Invalid Format" });
         }
+
+        const session = discordSessions.get(sessionId);
+
+        if (!session || session.expiresAt < Date.now()) {
+            discordSessions.delete(sessionId);
+            res.clearCookie("__Host-imperion_session", { path : "/" });
+            return res.status(401).json({ user: null, error : "Session expired" });
+
+        }
+
+
 
         try {
             const userResponse = await fetch('https://discord.com/api/users/@me', {
-                headers: { authorization: `Bearer ${token}` }
+                headers: { authorization: `Bearer ${session.discordAccessToken}` }
             });
             
             if (userResponse.ok) {
