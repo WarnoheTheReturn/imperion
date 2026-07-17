@@ -2,7 +2,7 @@ import { ButtonInteraction, ModalSubmitInteraction, StringSelectMenuInteraction,
 
 export interface VerifyAnswers {
   recruitedBy?:    string;
-  timezone?:       string;
+  // timezone?:       string;
   howFound?:       string;
   robloxVerified?: boolean;
   robloxId?:       number;
@@ -22,7 +22,7 @@ export const checkVerifyComplete = async (
 
   const allDone =
     session.recruitedBy &&
-    session.timezone &&
+    // session.timezone &&
     session.howFound &&
     session.robloxVerified &&
     session.groupVerified;

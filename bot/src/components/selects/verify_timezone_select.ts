@@ -24,7 +24,7 @@ const TimezoneSelect: StringSelectComponent = {
             return
         };
     
-        session.timezone = timezone;
+        // session.timezone = timezone;
     
         await interaction.reply({
           content: `✅ Timezone save : ${timezone}`,
