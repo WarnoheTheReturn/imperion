@@ -11,7 +11,7 @@ export interface eventParticipantData {
     channel_id: string | null;
     xp_pourcentage: number | null;
     joined_at: Date | null;
-
+    total_minute: number ;
     current_xp: number;
     
 }
