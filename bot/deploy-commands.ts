@@ -36,11 +36,13 @@ if (!token || !guildId || !clientId) {
 
 const commands = [];
 const commandsPath = path.join(__dirname, "src", "commands");
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith(".ts"));
+const commandFiles = fs.readdirSync(commandsPath, { withFileTypes: true, recursive : true })
+  .map(file => path.join(file.parentPath, file.name))
+  .filter(file => file.endsWith(".ts"));
 
 
 for (const file of commandFiles) {
-  const command = require(path.join(commandsPath, file)).default;
+  const command = require(file).default;
   if (command && command.data) {
     commands.push(command.data.toJSON());
   }
