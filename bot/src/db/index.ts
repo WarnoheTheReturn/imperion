@@ -89,10 +89,19 @@ import { EventTypeModel } from './models/event_type';
       
     }
 
-    public async testConnection() {
-      const conn = await this.pool.getConnection();
-      console.log('✅ !');
-      conn.release();
+    public async testConnection(): Promise<boolean> {
+      try {
+        const conn = await this.pool.getConnection();
+        await conn.ping();
+
+        conn.release();
+
+        console.log('✅ Database connected successfully.');
+        return true;
+      } catch (error) {
+        console.error('❌ Impossible to connect to the database :', error);
+        return false;
+      }
     }
-  }
+  } 
 
