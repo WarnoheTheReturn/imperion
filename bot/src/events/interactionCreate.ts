@@ -55,7 +55,14 @@ const event: Event = {
 
       try {
         await command.execute(commandInteraction, client);
-        console.log(`ℹ️ /${commandInteraction.commandName} executed by ${interaction.user.globalName}`)
+        const group = interaction.options.getSubcommandGroup(false)
+        const sub = interaction.options.getSubcommand(false)
+        const commandPath = [
+          interaction.commandName,
+          group,
+          sub,
+        ].filter(Boolean).join(' ');
+        console.log(`ℹ️ /${commandPath} executed by ${interaction.user.globalName}`)
       } catch (error) {
         console.error(`❌ Erreur with the execution of the command /${commandInteraction.commandName} :`, error);
         
