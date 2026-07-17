@@ -43,7 +43,7 @@ export const createServer = (client : Bot) => {
             // res.json({ success: true, message: 'Discord token fetched successfully' });
 
 
-             const userResponse = await fetch('https://discord.com/api/users/@me', {
+            const userResponse = await fetch('https://discord.com/api/users/@me', {
                 headers: {
                     authorization: `Bearer ${data.access_token}`
                 }

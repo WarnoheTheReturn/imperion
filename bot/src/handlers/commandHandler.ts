@@ -17,7 +17,7 @@ export async function loadCommands(client: Bot): Promise<void> {
 
   const files = dirents
     .filter(dirent => dirent.isFile() && (dirent.name.endsWith(".ts") || dirent.name.endsWith(".js")) && !dirent.name.endsWith('.d.ts'))
-    .map(dirent => `${dirent.parentPath}\\${dirent.name}`);
+    .map(dirent => path.join(dirent.parentPath,dirent.name));
 
 
 
