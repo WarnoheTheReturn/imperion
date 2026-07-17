@@ -9,7 +9,7 @@ import {EventState} from "../../types/index";
 const command: Command = {
   data: new SlashCommandBuilder()
     .setName("create_event")
-    .setDescription("create an event")
+    .setDescription("event-manage-create")
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption((option) => option
         .setName("name")
@@ -28,7 +28,8 @@ const command: Command = {
       const choices = await bot.db.tables.event_type.getAll();      
       const filtered = choices.filter((choice) => choice.data.name.toLowerCase().startsWith(focusedValue.toLowerCase()));
       await interaction.respond(
-        filtered.map((choice) => ({ name: `${choice.data.name} (${choice.data.id})`, value: choice.data.id.toString() }))
+        filtered
+          .map((choice) => ({ name: `${choice.data.name} (${choice.data.id})`, value: choice.data.id.toString() }))
       );
     },
 
