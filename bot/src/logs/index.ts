@@ -97,5 +97,55 @@ export class Logger {
     this.info(`Logged discharge for user ${userId} in channel ${logChannel.id}`);
   }
 
+  public async logGradeChange(description : string): Promise<void> {
+    let logChannel = await this.getLogChannel(LogChannelType.GENERAL);
+    if (!logChannel) {
+      const guildId : string = this.client.config.discord.guildId;
+      logChannel = (await this.client.guilds.fetch(guildId)).systemChannel;
+      if (!logChannel) { 
+        console.error(`⚠️ Failed to find system channel for guild ${guildId}`);
+        return
+      };
+    }
+    const embed = new EmbedBuilder()
+        .setTitle("⚠️ Grade Warnings")
+        .setDescription(`${description}`)
+        .setColor("#c5c903");
+    await logChannel.send({ embeds: [embed] });
+    this.info(`Logged grade change for guild ${logChannel.id}`);
+  }
+  
+
+
+
+
+  public async logEvent(eventId : number, description : string): Promise<void> {
+    const logChannel = await this.getLogChannel(LogChannelType.EVENT);
+    if (!logChannel) return;
+    const embed = new EmbedBuilder()
+        .setTitle(`Event N°${eventId} Logged`)
+        .setDescription(`${description}`)
+        .setColor("#1855da");
+    await logChannel.send({ embeds: [embed] });
+    this.info(`Logged event in channel ${logChannel.id}`);
+
+
+  }
+
+  public async logEventChannelNotFound(description : string): Promise<void> {
+    const logChannel = await this.getLogChannel(LogChannelType.GENERAL);
+    if (!logChannel) return;
+    const embed = new EmbedBuilder()
+        .setTitle(`Warnings`)
+        .setDescription(`${description}`)
+        .setColor("#da3f18");
+    await logChannel.send({ embeds: [embed] });
+    this.info(`Event channel not found (${logChannel.id})`);
+
+  }
+
+
+
+
   
 }
