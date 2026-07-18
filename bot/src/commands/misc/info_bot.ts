@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, InteractionContextType } from "discord.js";
 import { Command } from "../../types";
 import { Bot } from "../../types";
+import { getBotVersion } from '../../utils/version';
 
 const command: Command = {
   data: new SlashCommandBuilder()
@@ -17,21 +18,21 @@ const command: Command = {
     const minutes = Math.floor((uptime % 3600) / 60);
     const seconds = Math.floor(uptime % 60);
     const uptimeStr = `${hours}h ${minutes}m ${seconds}s`;
-    const version = require("../../package.json").version; 
+    const version = getBotVersion() 
 
     const embed = new EmbedBuilder()
-    .setTitle("🤖 Informations")
+    .setTitle("Informations")
     .setColor("#1840da")
     .setThumbnail(bot.user?.displayAvatarURL()) 
     .addFields(
-        { name: "🏠 Guilds",   value: bot.guilds.cache.size.toString(),                              inline: true },
-        { name: "👥 Users", value: bot.users.cache.size.toString(),                             inline: true },
-        { name: "⚡ Commands",   value: bot.commands.size.toString(),                                 inline: true },
-        { name: "⏱️ Uptime",      value: uptimeStr,                                                    inline: true },
-        { name: "🧠 Memory",     value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, inline: true },
-        { name: "🔖 Version",     value: `v${version}`,                                               inline: true },
-        { name: "✍️ Author",      value: `<@${"1401153828195139757"}>`,                               inline: true },
-        { name: "🌐 Website",    value: `[imperion.onrender.com](https://imperion.onrender.com/)`,   inline: true },
+        { name: "Guilds",   value: bot.guilds.cache.size.toString(),                              inline: true },
+        { name: "Users", value: bot.users.cache.size.toString(),                             inline: true },
+        { name: "Commands",   value: bot.commands.size.toString(),                                 inline: true },
+        { name: "Uptime",      value: uptimeStr,                                                    inline: true },
+        { name: "Memory",     value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, inline: true },
+        { name: "Version",     value: `v${version}`,                                               inline: true },
+        { name: "Author",      value: `<@${"1401153828195139757"}>`,                               inline: true },
+        { name: "Website",    value: `[imperion.onrender.com](https://imperion.onrender.com/)`,   inline: true },
     )
     .setTimestamp();
         
