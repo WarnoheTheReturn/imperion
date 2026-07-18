@@ -1,5 +1,7 @@
-import { RowDataPacket } from 'mysql2/promise';
+import { RowDataPacket} from 'mysql2/promise';
 import { BaseModel } from '../model';
+import { truncate } from 'node:fs';
+
 
 export interface UserData {
   id: string;
@@ -21,4 +23,16 @@ export interface UserData {
 export class UsersModel extends BaseModel<UserData> {
   public tableName = 'users';
   public primaryKey = 'id';
+
+  public async isRobloxIdUsed(robloxId: number): Promise<boolean> {
+    const [rows] = await this.pool.query<(UsersModel & RowDataPacket)[]>(
+      `SELECT COUNT(*) FROM ?? WHERE ?? = ?`,
+      [this.tableName, "id", robloxId]
+    );
+    if (rows.length === 0) {
+      return false;
+    }
+    return true;
+  }
+
 }

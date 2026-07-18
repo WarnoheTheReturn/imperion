@@ -110,7 +110,9 @@ const command: Command = {
       .addSeparatorComponents(new SeparatorBuilder())
 
       .addTextDisplayComponents(
-        new TextDisplayBuilder().setContent("**3.** Join the Roblox group and verify your roblox account.")
+        new TextDisplayBuilder().setContent("**3.** Join the Roblox group and verify your roblox account.\n** DO NOT SHARE THE ROBLOX API LINK !!!**")
+      
+
           
       ).addActionRowComponents(
         new ActionRowBuilder<ButtonBuilder>().addComponents(
@@ -138,15 +140,37 @@ const command: Command = {
     // WAIT 
     const wait = 1000 * 60 * 5;
     const session = await waitForVerify(interaction.user.id, wait);
+
     if (!session) {
-      await interaction.editReply({ content: "❌ No session found" }); 
+      await interaction.editReply({
+         components: [
+            new ContainerBuilder()
+            .addTextDisplayComponents(
+                new TextDisplayBuilder()
+                .setContent(`❌ No session found`)
+            )
+        ],
+        flags: MessageFlags.IsComponentsV2,
+      }); 
       return
     };
 
 
-    const verifiedGradeRole = interaction.guild?.roles.cache.get(verifiedGrade.data.role_id) as Role;
-    await member.roles.add(verifiedGradeRole);
-    await member.roles.remove(lowerestGradeRole);
+    const verifiedGradeRole = interaction.guild?.roles.cache.get(verifiedGrade.data.role_id) as Role;  
+    if (await bot.db.tables.users.isRobloxIdUsed(session.robloxId!)) {
+      await interaction.editReply({ 
+        components: [
+            new ContainerBuilder()
+            .addTextDisplayComponents(
+                new TextDisplayBuilder()
+                .setContent(`❌ Your roblox account is already linked with another discord account`)
+            )
+        ],
+        flags: MessageFlags.IsComponentsV2,
+      }); 
+      return;
+    }
+
 
     if (userData && !userData.data.in_faction) {
       userData.data.in_faction = true;
@@ -178,6 +202,9 @@ const command: Command = {
         enlistment_date: new Date()
       };
       await bot.db.tables.users.create(memberData);
+
+      await member.roles.add(verifiedGradeRole);
+      await member.roles.remove(lowerestGradeRole);
     }
     await bot.log.logEnlistment(interaction.user.id, session.robloxId!, session.recruitedBy ?? null, "", session.howFound!);
     await interaction.editReply({
