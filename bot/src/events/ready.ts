@@ -4,6 +4,7 @@ import {activeEvents, channelEvents, eventTypes,eventParticipants} from "../stor
 import {Events,ChannelType,ActivityType} from "discord.js"
 import { joinEvent } from "./voiceStateUpdate";
 import { BOT_VERSION } from '../generated/version';
+import { startWeeklyBulletin } from "../jobs/weeklyBulletin"
 
 async function reloadEvent(client : Bot) : Promise<void> {
   const allEvent = await client.db.tables.logs_event.getAll();
@@ -45,6 +46,7 @@ const event: Event = {
     await client.guilds.cache.first()?.members.fetch();
     await client.guilds.cache.first()?.channels.fetch();
     await client.guilds.cache.first()?.roles.fetch();
+
     const testConnection = await client.db.testConnection()
     if (!testConnection) {
       console.error("❌ Database connection failed");
@@ -62,6 +64,9 @@ const event: Event = {
         } 
       ]
     });
+
+    startWeeklyBulletin(client);
+
 
     console.log(`✅ Bot connected as ${client.user?.tag}`);
   },
