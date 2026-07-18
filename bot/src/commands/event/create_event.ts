@@ -8,8 +8,8 @@ import {EventState} from "../../types/index";
 
 const command: Command = {
   data: new SlashCommandBuilder()
-    .setName("create_event")
-    .setDescription("event-manage-create")
+    .setName("event-manage-create")
+    .setDescription("caca")
     .setContexts(InteractionContextType.Guild)
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addStringOption((option) => option
