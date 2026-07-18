@@ -15,7 +15,6 @@ let token: string;
 let secretKey: string;
 let redirectUriDiscord: string;
 let redirectUriRoblox: string;
-let authorizeUrl: string;
 let clientId: string;
 let dbHost: string;
 let dbPort: number;
@@ -28,7 +27,6 @@ let website: string;
 let server: string;
 
 if (dev) {
-  authorizeUrl = getEnvVar("AUTHORIZE_URL");
   token = getEnvVar("DISCORD_TOKEN");
   secretKey = getEnvVar("DISCORD_SECRET_KEY");
   redirectUriDiscord = getEnvVar("REDIRECT_URI_DISCORD");
@@ -44,7 +42,6 @@ if (dev) {
   website = getEnvVar("WEBSITE");
   server = getEnvVar("SERVER");
 } else {
-  authorizeUrl = getEnvVar("AUTHORIZE_URL_PROD");
   token = getEnvVar("DISCORD_TOKEN_PROD");
   secretKey = getEnvVar("DISCORD_SECRET_KEY_PROD");
   redirectUriDiscord = getEnvVar("REDIRECT_URI_DISCORD_PROD");
@@ -79,7 +76,6 @@ export const config = {
     port: parseInt(getEnvVar("PORT"), 10),
     redirectUriDiscord: redirectUriDiscord,
     redirectUriRoblox: redirectUriRoblox,
-    authorizeUrl: authorizeUrl,
     robloxGroup : getEnvVar("ROBLOX_GROUPE_API"),
     robloxGroupeID : getEnvVar("ROBLOX_GROUPE_ID"),
     robloxAPIID : robloxAPIID,
