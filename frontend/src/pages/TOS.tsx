@@ -126,7 +126,7 @@ function Tos() {
     </React.Fragment>  
   ));
 
-    const descriptionEnBref = "Imperion gère une faction Discord liée à Roblox : grades, XP,\n\
+    const descriptionEnBref = "Imperion gère une faction Discord liée à Roblox : grades, XP,\
      médailles, sanctions et enrôlement.\n\
      Vous devez avoir un compte Discord et Roblox valides pour utiliser le service.\n\
      Un usage abusif (manipulation d'XP, usurpation, contournement de sanction) peut entraîner une exclusion.\n\

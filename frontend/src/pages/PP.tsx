@@ -281,7 +281,7 @@ function PP() {
       <main>
         <section className={style.tosTopSection}>
           <div className={style.tosDescription}>
-            <h2>Vos donnees, expliquees simplement</h2>
+            <h2>Vos donnees, expliques simplement</h2>
             <p>{descriptionWithBreak}</p>
           </div>
           <div className={style.tosSummary}>

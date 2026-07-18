@@ -21,6 +21,7 @@ function CallbackRoblox() {
         if (!code || !state) {
             setStatus("Erreur : Aucun code d'autorisation trouvé.");
             setTimeout(() => navigate('/'), 3000);
+            return;
         }
 
         const fecthRobloxCallback = async () => {
