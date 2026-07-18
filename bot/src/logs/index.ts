@@ -57,7 +57,7 @@ export class Logger {
         const embed = new EmbedBuilder()
             .setTitle("Promotion Logged")
             .setDescription(`📈 User <@${userId}> was promoted from <@&${previousGrade}> to <@&${updatedGrade}>.`)
-            .setColor("#");
+            .setColor("#019409");
         await logChannel.send({ embeds: [embed] });
         this.info(`Logged promotion for user ${userId} in channel ${logChannel.id}`);
 

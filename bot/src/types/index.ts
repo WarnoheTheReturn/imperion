@@ -37,6 +37,7 @@ export class LogChannelType {
   static readonly GRADES = "grades"
   static readonly ENLISTMENT = "enlistment";
   static readonly EVENT = "event";
+  static readonly BULLETIN = "bulletin";
 
 
 }
