@@ -57,13 +57,15 @@ const command: Command = {
     
 
     const gradeRole = interaction.guild?.roles.cache.get(userData.data.current_grade) as Role;
-    await member.roles.remove(gradeRole);
-    await member.roles.add(role);
 
     const oldGrade = userData.data.current_grade;
     userData.data.current_grade = role.id;
     userData.data.xp = 0;
     await userData.save();
+
+    await member.roles.remove(gradeRole);
+    await member.roles.add(role);
+    
     await bot.log.logDemotion(user.id, oldGrade, role.id);
     await interaction.editReply({ content : `✅ ${user.globalName} demoted !` });
 

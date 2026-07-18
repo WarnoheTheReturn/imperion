@@ -54,15 +54,16 @@ const command: Command = {
         if (gradeData) {
           const role = interaction.guild?.roles.cache.get(userData.data.current_grade) as Role;
           await member.roles.remove(role);
-        }
-        
-        const newRole = interaction.guild?.roles.cache.get(nextGrade.role_id) as Role;
-        await member.roles.add(newRole);
+        }     
 
         const oldGrade = userData.data.current_grade;
         userData.data.current_grade = nextGrade.role_id;
         userData.data.xp = 0;
         await userData.save();
+
+        const newRole = interaction.guild?.roles.cache.get(nextGrade.role_id) as Role;
+        await member.roles.add(newRole);
+        
         await bot.log.logPromotion(user.id, oldGrade, nextGrade.role_id);
         await interaction.editReply({ content : `✅ ${user.globalName} promoted !` });
 

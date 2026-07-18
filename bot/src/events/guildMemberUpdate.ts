@@ -26,6 +26,10 @@ const event: Event = {
     if (!memberData) {
         description = `Member <@${newMember.id}> does not exist in database but has receve a grade role : <@&${gradeData[0]!.data.role_id}>`
     } else {
+        if (memberData.data.current_grade === gradeData[0]!.data.role_id) {
+            return;
+        }
+
         description = `Member <@${newMember.id}> has not the same grade as before :\n - In Database : <@&${memberData.data.current_grade}>\n - With discord role <@&${gradeData[0]!.data.role_id}>`
     }
     await bot.log.logGradeChange(description);
