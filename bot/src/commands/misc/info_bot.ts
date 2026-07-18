@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, MessageFlags, InteractionContextType } from "discord.js";
 import { Command } from "../../types";
 import { Bot } from "../../types";
-import { getBotVersion } from '../../utils/version';
+import { BOT_VERSION } from '../../generated/version';
 
 const command: Command = {
   data: new SlashCommandBuilder()
@@ -10,7 +10,7 @@ const command: Command = {
     .setContexts(InteractionContextType.Guild) as SlashCommandBuilder,
 
   execute: async (interaction: ChatInputCommandInteraction, bot: Bot) => {
-    const sent = await interaction.deferReply();
+    const sent = await interaction.deferReply({ flags: MessageFlags.Ephemeral });
     if (!bot.user) return;
 
     const uptime = process.uptime();
@@ -18,7 +18,7 @@ const command: Command = {
     const minutes = Math.floor((uptime % 3600) / 60);
     const seconds = Math.floor(uptime % 60);
     const uptimeStr = `${hours}h ${minutes}m ${seconds}s`;
-    const version = getBotVersion() 
+    const version = BOT_VERSION
 
     const embed = new EmbedBuilder()
     .setTitle("Informations")

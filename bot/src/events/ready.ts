@@ -3,7 +3,7 @@ import {EventState} from "../types/index";
 import {activeEvents, channelEvents, eventTypes,eventParticipants} from "../store/event"
 import {Events,ChannelType,ActivityType} from "discord.js"
 import { joinEvent } from "./voiceStateUpdate";
-import { getBotVersion } from '../utils/version';
+import { BOT_VERSION } from '../generated/version';
 
 async function reloadEvent(client : Bot) : Promise<void> {
   const allEvent = await client.db.tables.logs_event.getAll();
@@ -52,7 +52,7 @@ const event: Event = {
     }
     await reloadEvent(client);
     
-    const version = getBotVersion()
+    const version = BOT_VERSION
     client.user?.setPresence({ 
       status: 'online', 
       activities: [

@@ -9,6 +9,7 @@
   "scripts": {
     "build": "tsc",
     "sql": "ts-node private/run-sql.ts",
+    "predev": "node scripts/update-version.cjs",
     "dev": "cross-env NODE_ENV=dev ts-node src/index.ts",
     "start": "node dist/index.js",
     "deploy": "cross-env NODE_ENV=dev ts-node deploy-commands.ts",
