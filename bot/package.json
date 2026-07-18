@@ -1,6 +1,6 @@
 {
   "name": "bot_ef_v2",
-  "version": "0.0.1",
+  "version": "0.1",
   "description": "",
   "license": "ISC",
   "author": "Warnohe",
@@ -24,6 +24,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "child_process": "^1.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "discord.js": "^14.26.4",

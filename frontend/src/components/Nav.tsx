@@ -25,26 +25,8 @@ function Nav({user, loading} : {user: User | null, loading: boolean})  {
             return;
         }
         else {
-
-            const getDiscordAuthorizeUrl = async () => {
-                try {
-                    const response = await fetch('/api/authorize/discord', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    });
-                    const data = await response.json();
-                    return data.url;
-                } catch (error) {
-                    console.error('Error fetching Discord authorize URL:', error);
-                    return "/";
-                }
-            };
-
-            const discordLink = await getDiscordAuthorizeUrl();
-            console.log('Redirecting to Discord authorize URL:', discordLink);
-            window.location.href = discordLink;
+            window.location.href = '/api/authorize/discord';
+            return;
         }
     };
 

@@ -18,9 +18,11 @@ function CallbackDiscord({ setUser }: CallbackDiscordProps) {
         called.current = true;
         
         const params = new URLSearchParams(window.location.search);
-        const code = params.get('code');
 
-        if (!code) {
+        const code = params.get('code');
+        const state = params.get('state');
+
+        if (!code || !state) {
             setStatus("Erreur : Aucun code d'autorisation trouvé.");
             setTimeout(() => navigate('/'), 3000);
             return;
@@ -33,21 +35,25 @@ function CallbackDiscord({ setUser }: CallbackDiscordProps) {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ code })
+                    body: JSON.stringify({ code, state })
                 });
 
                 const data = await response.json();
-                if (data.success) {
+
+                if (!response.ok || !data.success) {
                     setStatus(data.message);
-                    setUser(data.user);
-                    setTimeout(() => navigate('/'), 3000);
-                } else {
-                    setStatus(data.message);
-                    setTimeout(() => navigate('/'), 3000);
+                    setTimeout(() => navigate('/'),3000);
+                    return;
                 }
+
+                setStatus(data.message);
+                setUser(data.user);
+
+                setTimeout(() => navigate('/'), 3000);
+            
             } catch (error) {
                 console.error(error);
-                setStatus("Erreur de fetch : " + error);
+                setStatus("Erreur de communication avec le serveur.");
                 setTimeout(() => navigate('/'), 3000);
             }
         };

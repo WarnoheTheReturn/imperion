@@ -76,21 +76,27 @@ export const createServer = (client : Bot) => {
 
 
 
-    app.get('/api/callback/discord', callbackOauthLimiter, async (req, res) => {
-        const { code, state } = req.query;
+    app.post('/api/callback/discord', callbackOauthLimiter, async (req, res) => {
+        const { code, state } = req.body;
 
         const expectedState = req.cookies[cookies.discordState]
 
         res.clearCookie(cookies.discordState, {path: '/'})
 
         if (state !== expectedState || typeof code !== 'string' || typeof state !== 'string' || typeof expectedState !== 'string') {
-            return res.status(403).send("❌ State OAuth invalid.")
+            return res.status(403).json({
+                success : false,
+                message : "❌ State OAuth invalid."
+            });
         }
 
         const token = consumeToken('discord',state);
 
         if (!token) {
-            return res.status(403).send('❌ State OAuth invalid or expired.');
+            return res.status(403).json({
+                success : false,
+                message:'❌ State OAuth invalid or expired.'
+            });
         }
 
         try {
@@ -113,7 +119,10 @@ export const createServer = (client : Bot) => {
 
             if (!response.ok || typeof data.access_token !== 'string') {
                 console.error('Error fetching Discord token');
-                res.status(400).json({ success: false, message: 'Failed to fetch Discord token' });
+                res.status(400).json({ 
+                    success: false, 
+                    message: 'Failed to fetch Discord token' 
+                });
                 return;
             }
 
@@ -155,14 +164,21 @@ export const createServer = (client : Bot) => {
            
             res.json({ 
                 success: true, 
-                message: "Authentification réussie"
+                message: "Authentification réussie",
+                user : {
+                    id: userData.id,
+                    username : userData.username
+                }
             });
 
 
 
         } catch (error) {
             console.error('Error fetching Discord token:', error);
-            res.status(500).json({ success: false, message: 'Internal server error' });
+            res.status(500).json({ 
+                success: false, 
+                message: 'Internal server error' 
+            });
             return;
         } 
       });
@@ -195,9 +211,9 @@ export const createServer = (client : Bot) => {
         );
     });
 
-    app.get("/api/callback/roblox", callbackOauthLimiter, async (req, res) => {
+    app.post("/api/callback/roblox", callbackOauthLimiter, async (req, res) => {
         console.log("Received Roblox callback");
-        const { code, state: token } = req.query;
+        const { code, state: token } = req.body;
 
         if (typeof code !== 'string' || typeof token !== 'string') {
             return res.status(400).json({
@@ -305,7 +321,10 @@ export const createServer = (client : Bot) => {
         const verifyToken = getToken('roblox', token);
 
         if (!verifyToken?.userId) {
-            return res.status(401).send('❌ Token invalid or expired');
+            return res.status(401).json({
+                success : false,
+                message : '❌ Token invalid or expired'
+            });
         }
 
         const params = new URLSearchParams({
@@ -333,7 +352,10 @@ export const createServer = (client : Bot) => {
         if (!session || session.expiresAt < Date.now()) {
             discordSessions.delete(sessionId);
             res.clearCookie(cookies.session, { path : "/" });
-            return res.status(401).json({ user: null, error : "Session expired" });
+            return res.status(401).json({ 
+                user: null, 
+                error : "Session expired" 
+            });
 
         }
 
