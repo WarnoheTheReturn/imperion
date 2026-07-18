@@ -1,7 +1,7 @@
 import { ButtonBuilder, ButtonStyle, MessageFlags } from "discord.js";
 import type { ButtonComponent } from "../../types/index";
 import { Bot } from "../../types";
-import { createToken } from "../../store/verifyToken";
+import { createToken, invalideuserRobloxToken } from "../../store/verifyToken";
 
 const verifyRobloxApi : ButtonComponent = {
   customId: "verify_roblox_api",
@@ -12,8 +12,8 @@ const verifyRobloxApi : ButtonComponent = {
     .setStyle(ButtonStyle.Link),
 
   build: (bot : Bot,userId) : ButtonBuilder => {
-    
-    return verifyRobloxApi.component.setURL(`${bot.config.api.server}/api/auth/roblox?token=${createToken(userId)}`);},
+    invalideuserRobloxToken(userId)
+    return verifyRobloxApi.component.setURL(`${bot.config.api.server}/api/auth/roblox?token=${createToken('roblox',userId)}`);},
 
   execute: async (interaction, bot) => { 
     await interaction.deferReply({ flags : MessageFlags.Ephemeral });
