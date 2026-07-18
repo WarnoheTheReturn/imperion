@@ -48,8 +48,8 @@ const command: Command = {
     const gradeData : GradesModel | null = await bot.db.tables.grades.getById(userData.data.current_grade);
     if (gradeData) {
         const nextGrade = await bot.db.tables.grades.nextGrade(gradeData.data.level);
-        xp_requirements = (nextGrade?.xp_requirements)?.toString() || "?";
-        next_grade_id = nextGrade?.role_id || "?";
+        xp_requirements = (nextGrade?.xp_requirements)?.toString() || "";
+        next_grade_id = nextGrade?.role_id || "";
     }
 
     const robloxProfilPicture = await robloxProfilPictureURL(userData.data.roblox_id);
@@ -96,7 +96,7 @@ const command: Command = {
         new TextDisplayBuilder().setContent(
           [
             `>  **Grade** : <@&${userData.data.current_grade}>`,
-            `>  **XP** : \`${userData.data.xp}/${xp_requirements}\` — Next: <@&${next_grade_id}>`,
+            `>  **XP** : \`${userData.data.xp}${next_grade_id ? `/${xp_requirements}\` — Next: <@&${next_grade_id}>` : "\`"}`,
             `>  **Roblox** : [View profile](https://www.roblox.com/users/${userData.data.roblox_id}/profile)`,
             `>  **Enlisted** : ${enlistDate}`,
             extraLines,

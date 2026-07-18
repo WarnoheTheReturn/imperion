@@ -40,7 +40,7 @@ const command: Command = {
           for (const [channelId, list] of memberGroupedByChannel) {
             description += `Channel <#${channelId}> :\n`
             description += list.map(member => `<@${member.user_id}> (${member.current_xp} xp)`).join("\n")
-
+            description += `Updated when member joined/leave the channel\n`
           }
 
           const embed = new EmbedBuilder()

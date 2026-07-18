@@ -110,6 +110,7 @@ const command: Command = {
       memberNotInDB.push([userId,participant.current_xp])
     } else {
       memberData.data.xp += participant.current_xp;
+      await memberData.save();
       description += `<@${userId}> (${participant.current_xp} xp)\n`;
 
     }

@@ -108,7 +108,7 @@ export class Logger {
       };
     }
     const embed = new EmbedBuilder()
-        .setTitle("⚠️ Grade Warnings")
+        .setTitle("⚠️ ANTI FNT Warnings")
         .setDescription(`${description}`)
         .setColor("#c5c903");
     await logChannel.send({ embeds: [embed] });
