@@ -2,11 +2,9 @@
   import { config } from '../config';
   import { GradesModel } from './models/grades';
   import { LogsInactivityModel } from './models/logs_inactivity';
-  import { LogsInfoModel } from './models/logs_info';
   import { LogsMedalModel } from './models/logs_medal';
   import { LogsPromotionModel } from './models/logs_promotion';
   import { LogsRankLockModel } from './models/logs_rank_lock';
-  import { LogsTypeModel } from './models/logs_type';
   import { LogsXpModel } from './models/logs_xp';
   import { MedalsModel } from './models/medals';
   import { UsersMedalsModel } from './models/users_medals';
@@ -23,11 +21,9 @@ import { EventTypeModel } from './models/event_type';
       grades: GradesModel;
       logs_log_channel: LogsLogChannelModel;
       logs_inactivity: LogsInactivityModel;
-      logs_info: LogsInfoModel;
       logs_medal: LogsMedalModel;
       logs_promotion: LogsPromotionModel;
       logs_rank_lock: LogsRankLockModel;
-      logs_type: LogsTypeModel;
       logs_xp: LogsXpModel;
       medals: MedalsModel;
       users_medals: UsersMedalsModel;
@@ -69,11 +65,9 @@ import { EventTypeModel } from './models/event_type';
         grades : new GradesModel(this.pool),
         logs_log_channel : new LogsLogChannelModel(this.pool),
         logs_inactivity : new LogsInactivityModel(this.pool),
-        logs_info : new LogsInfoModel(this.pool),
         logs_medal : new LogsMedalModel(this.pool),
         logs_promotion : new LogsPromotionModel(this.pool),
         logs_rank_lock : new LogsRankLockModel(this.pool),
-        logs_type : new LogsTypeModel(this.pool),
         logs_xp : new LogsXpModel(this.pool),
         medals : new MedalsModel(this.pool),
         users_medals : new UsersMedalsModel(this.pool),

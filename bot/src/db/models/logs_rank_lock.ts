@@ -1,11 +1,15 @@
 import { RowDataPacket } from 'mysql2/promise';
 import { BaseModel } from '../model';
 
-export interface LogsRankLockRow extends RowDataPacket {
+export interface LogsRankLockRow {
   id: number;
   grade_id : string;
-  is_locked : boolean;
-  duration : Date
+  is_removed : boolean;
+  duration : Date;
+  user_id : string;
+  moderateur_id : string;
+  date : Date;
+  reason : string;
 }
 
 export class LogsRankLockModel extends BaseModel<LogsRankLockRow> {

@@ -11,7 +11,7 @@ export interface UserData {
   black_listed : boolean;
   in_faction : boolean;
   in_tww_faction : boolean;
-  rank_lock_grade_id : number | null;
+  rank_lock_grade_id : string | null;
   is_inactivity : boolean;
   inactivity_duration : Date | null;
   recruiter_id : string | null;

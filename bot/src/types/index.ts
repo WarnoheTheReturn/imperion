@@ -18,6 +18,8 @@ import { Logger } from "../logs/index";
 import { config } from "../config";
 import { ComponentStore } from "../components/index";
 
+export type xpType = "add" | "set" | "remove";
+
 export interface Command {
   data: SlashCommandBuilder;
   execute: (interaction: ChatInputCommandInteraction, client: Bot) => Promise<void>;
@@ -38,6 +40,8 @@ export class LogChannelType {
   static readonly ENLISTMENT = "enlistment";
   static readonly EVENT = "event";
   static readonly BULLETIN = "bulletin";
+  static readonly XP = "xp";
+  static readonly RANK_LOCK = "rank_lock";
 
 
 }

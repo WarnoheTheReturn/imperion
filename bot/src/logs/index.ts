@@ -1,6 +1,8 @@
 import { Embed, EmbedBuilder, TextChannel } from 'discord.js';
 import { Database } from '../db/index';
-import { Bot, LogChannelType } from '../types';
+import { Bot, LogChannelType , xpType} from '../types';
+import { LogsRankLockRow } from '../db/models/logs_rank_lock';
+
 
 
 export class Logger {
@@ -144,6 +146,50 @@ export class Logger {
 
   }
 
+  
+
+  public async logXp(xpType: xpType,description : string): Promise<void> {
+    const logChannel = await this.getLogChannel(LogChannelType.XP);
+    if (!logChannel) return;
+    const embed = new EmbedBuilder()
+        .setTitle(`Xp changed`)
+        .setDescription(`${description}`)
+        .setColor(xpType === "remove" ? "#da1818" : xpType === "set" ? "#ddc700" : "#00ac0e");
+    await logChannel.send({ embeds: [embed] });
+    this.info(`xp change loged (${xpType})`);
+
+  }
+
+  public async logRankLock(userId : string, gradeId : string, duration : Date, moderateurId : string,reason : string ): Promise<void> {
+    const logChannel = await this.getLogChannel(LogChannelType.XP);
+
+    const allLogData = await this.client.db.tables.logs_rank_lock.getAll();
+
+    const logData : LogsRankLockRow = {
+      id: allLogData.length + 1,
+      user_id: userId,
+      moderateur_id : moderateurId,
+      duration : duration,
+      date : new Date(),
+      is_removed : false,
+      grade_id : gradeId,
+      reason : reason
+    }
+
+    await this.client.db.tables.logs_rank_lock.create(logData)
+
+    const description = `Member <@${userId}> as been rank locked to <@&${gradeId}> by <@${moderateurId}> until the <t:${duration.getTime()}:f> \nReason : ${reason}`
+
+    const embed = new EmbedBuilder()
+        .setTitle(`Rank lock`)
+        .setDescription(`${description}`)
+        .setColor("#da1818");
+
+    if (logChannel) await logChannel.send({ embeds: [embed] });
+
+    this.info(`Rank lock `);
+
+  }
 
 
 

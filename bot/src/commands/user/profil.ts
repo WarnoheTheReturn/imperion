@@ -74,7 +74,11 @@ const command: Command = {
     if (userData.data.is_inactivity)
       extraLines += `\n> **Inactivity until** : ${userData.data.inactivity_duration}`;
     if (userData.data.rank_lock_grade_id !== null)
-      extraLines += `\n> **Rank lock until** : <@&${userData.data.rank_lock_grade_id}>`;
+      {
+        const allRankLockData = await bot.db.tables.logs_rank_lock.getAll();
+        const rankLockData = allRankLockData.find(log => log.data.user_id === userData.data.id && log.data.is_removed === false) 
+        if (rankLockData) extraLines += `\n> **Rank lock ** : <@&${userData.data.rank_lock_grade_id}> until <t:${rankLockData.data.duration.getTime()}:f> `;
+      }
 
     const container = new ContainerBuilder()
       .setAccentColor(color)
