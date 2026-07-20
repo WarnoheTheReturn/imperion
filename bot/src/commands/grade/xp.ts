@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, User,EmbedBuilder, MessageFlags , PermissionFlagsBits, InteractionContextType } from "discord.js";
-import { Command } from "../../types";
+import { Command , xpType} from "../../types";
 import { Bot } from "../../types";
 import { UsersModel } from "../../db/models/users"
 
@@ -34,7 +34,7 @@ const command: Command = {
     const sent = await interaction.deferReply();
 
     const user = interaction.options.getUser("user") as User;
-    const action = interaction.options.getString("action") as string;
+    const action = interaction.options.getString("action") as xpType;
     const amount = interaction.options.getNumber("amount") as number;
 
     const userData : UsersModel | null = await bot.db.tables.users.getById(user.id);
@@ -55,6 +55,12 @@ const command: Command = {
       userData.data.xp = amount;
     }
     await userData.save();
+
+    const description = `<@${user.id}> ${action === "add" ? "was added by +" : action === "remove" ? "was removed by -" : "was set to "}${amount} XP`;
+
+
+    await bot.log.logXp(action,description);
+
     
     await interaction.editReply({ content : `✅ ${user.globalName} updated from ${previous_xp} to ${userData.data.xp} !` });
     
