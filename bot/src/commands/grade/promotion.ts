@@ -27,6 +27,11 @@ const command: Command = {
       return;
     }
 
+    if (userData.data.rank_lock_grade_id) {
+      await interaction.editReply({ content : `❌ ${user.globalName} is rank locked !` });
+      return;
+    }
+
     if (!userData.data.in_faction) {
       await interaction.editReply({ content : `❌ ${user.globalName} is not enlisted in the faction !` });
       return;

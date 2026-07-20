@@ -52,8 +52,8 @@ export const startWeeklyBulletin = async (bot : Bot) => {
               continue;
             }
         
-            if (memberData.data.xp >= nextGrade.xp_requirements && memberData.data.in_faction){
-                
+            if (memberData.data.xp >= nextGrade.xp_requirements && memberData.data.in_faction && !memberData.data.rank_lock_grade_id){
+
                 if (gradeData) {
                   const role = guild.roles.cache.get(memberData.data.current_grade) as Role;
                   await member.roles.remove(role);
