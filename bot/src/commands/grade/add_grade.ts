@@ -5,32 +5,32 @@ import { GradesData } from "../../db/models/grades";
 
 const command: Command = {
   data: new SlashCommandBuilder()
-    .setName("grade-manage-add")
-    .setDescription("add a grade to the database")
+    .setName("add-rank")
+    .setDescription("Add a rank to the database.")
     .setContexts(InteractionContextType.Guild)
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
     .addRoleOption((option) => option
-        .setName("grade")
-        .setDescription("The grade to add")
+        .setName("rank")
+        .setDescription("The rank to add.")
         .setRequired(true)
     )
     .addNumberOption((option) => option
-        .setName("xp_amount")
-        .setDescription("The xp amount")
+        .setName("xp")
+        .setDescription("The amount of xp you want to set the rank at.")
         .setRequired(true)
     )
     .addNumberOption((option) => option
-      .setName("level") 
-      .setDescription("The grade level in the hierarchy")
+      .setName("position") 
+      .setDescription("The rank's position in the hierarchy.")
       .setRequired(true)
     ) as SlashCommandBuilder,
 
   execute: async (interaction: ChatInputCommandInteraction, bot: Bot) => {
     const sent = await interaction.deferReply();
 
-    const grade = interaction.options.getRole("grade") as Role;
-    const xp_requirements = interaction.options.getNumber("xp_amount") as number;
-    const level = interaction.options.getNumber("level") as number;
+    const grade = interaction.options.getRole("rank") as Role;
+    const xp_requirements = interaction.options.getNumber("xp") as number;
+    const level = interaction.options.getNumber("position") as number;
 
     const gradesDatas = await bot.db.tables.grades.getAll(); // switch en SELECT * FROM grades WHERE level = {level}
     let currentGradeData 
